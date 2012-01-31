@@ -1,26 +1,28 @@
+$LOAD_PATH << "./"
+
 class Token
-  attr_accesor :name
+  attr_accessor :name
 
   def initialize(name)
     @name = name
   end
 end
 
-class Constant << Token
-    attr_accesor :value
+class ConstantToken < Token
+    attr_accessor :value
 end
 
-class Boolean << Constant
+class BooleanToken < ConstantToken
 end
 
-class String << Constant
+class StringToken < ConstantToken
 end
 
-class Number << Constant
+class NumberToken < ConstantToken
 end
 
-class Integer << Number
+class IntegerToken < NumberToken
 end
 
-class Real << Number
+class RealToken < NumberToken
 end
