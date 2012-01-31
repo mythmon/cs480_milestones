@@ -1,8 +1,13 @@
 class Token
+  attr_accesor :name
+
+  def initialize(name)
+    @name = name
+  end
 end
 
 class Constant << Token
-    attr_accesor value
+    attr_accesor :value
 end
 
 class Boolean << Constant
