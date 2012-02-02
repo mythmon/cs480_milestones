@@ -1,32 +1,27 @@
 $LOAD_PATH << "./"
 
 class Token
-  def inspect()
-    '<%s>' % [self.class]
-  end
-end
+  attr_accessor :tag
 
-class SymbolToken < Token
-  attr_accessor :name
-
-  def initialize(name)
-    @name = name
+  def initialize(tag)
+    @tag = tag
   end
 
   def inspect()
-    '<%s: %s>' % [self.class, @name]
+    '<%s: %s>' % [self.class, @tag]
   end
 end
 
 class ConstantToken < Token
   attr_accessor :value
 
-  def initialize(value)
+  def initialize(tag, value)
+    super(tag)
     @value = value
   end
 
   def inspect()
-    '<%s: %s>' % [self.class, @value]
+    '<%s: %s - %s>' % [self.class, @tag, @value]
   end
 end
 
