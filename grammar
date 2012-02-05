@@ -1,0 +1,11 @@
+type-expression -> 'int' | 'real' | 'bool' | 'string'
+vlist -> \( (declaration)* \)
+declaration -> \( type-expression atom \)
+constant -> int | real | bool | string
+int -> (+|-)?[0-9]+
+real -> (+|-)?[0-9]+(\.[0-9]*((e|E)[0-9]+(\.[0-9]*)?)?f?|f)
+bool -> true | false
+string -> ".*" | '.*' | .*
+elist -> \( expr+ \)
+expr -> \( expr+ \)|statement
+statement -> (and|or|not|iff) bool bool | (+|-|*|/|%|^|=|<|) (int|real) (int|real) | (logn|e|sin|cos|tan) real | + string string | println expr | if expr expr (expr)? | while expr expr | let vlist elist | assign atom expr | constant | atom
