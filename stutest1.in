@@ -1,1 +1,1 @@
-(if true false)(println "YEAH" 45)
+(if true false)(println "YEAH" 45)(assign my_var 42)(assign my_var2 "HEY")

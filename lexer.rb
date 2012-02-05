@@ -14,7 +14,9 @@ st = SymbolTable.new
 
 line = 1
 
+# =============================================================
 # tokenize stream of characters with regexes in if/next fashion
+# =============================================================
 until s.eos?
 
   # nom whitespace, turn input to character stream
@@ -117,8 +119,8 @@ until s.eos?
   end
 
   # strings (quoted)
-  l = s.scan(/"(.*)"/)
-  l = s.scan(/'(.*)'/) unless l
+  l = s.scan(/"(.*?)"/)
+  l = s.scan(/'(.*?)'/) unless l
   if l
     token = StringToken.new(:string, s[0])
     st.try_set(l, token)
@@ -139,6 +141,17 @@ until s.eos?
   raise "What? " + s.inspect unless s.eos?
 
 end
+
+# ========================================
+# add variable assignments to symbol table
+# ========================================
+tokens.each do|token|
+    puts token.tag
+    if token.tag == "assign"
+        puts token
+    end
+end
+
 
 puts
 puts "Token Stream"

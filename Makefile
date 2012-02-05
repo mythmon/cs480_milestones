@@ -1,4 +1,4 @@
-CCC = ruby19
+CCC = ruby1.9.1
 CCFLAGS =
 OBJS =
 SOURCE = lexer.rb
