@@ -4,6 +4,7 @@ require "tokens.rb"
 require "symboltable.rb"
 require "strscan"
 
+puts
 puts 'Type something'
 input = gets
 
@@ -42,6 +43,42 @@ until s.eos?
   l = s.scan(/println/)
   if l
     token = Token.new(:print)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # if statement
+  l = s.scan(/if/)
+  if l
+    token = Token.new(:if)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # while statement
+  l = s.scan(/while/)
+  if l
+    token = Token.new(:while)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # let statement
+  l = s.scan(/let/)
+  if l
+    token = Token.new(:let)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # assign statement
+  l = s.scan(/assign/)
+  if l
+    token = Token.new(:assign)
     st.try_set(l, token)
     tokens << token
     next
@@ -103,8 +140,10 @@ until s.eos?
 
 end
 
-puts "Lexemes"
+puts
+puts "Token Stream"
 puts '[' + tokens.collect{ |l| l.inspect }.join(', ') + ']'
 puts
 puts "Symbol Table"
 puts st.inspect
+puts
