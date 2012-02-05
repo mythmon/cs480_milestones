@@ -9,12 +9,10 @@ class SymbolTable
   def get(name)
     v = @st[name]
 
-    # if we didn't get anything
+    # if not found, try parent tree
     unless v
-      # walk up the parent tree
       p = @parent
       while p
-        # trying at every level
         v = p.get(name)
         return v if v != nil
         p = p.parent

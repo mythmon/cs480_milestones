@@ -12,6 +12,7 @@ class Token
   end
 end
 
+
 class ConstantToken < Token
   attr_accessor :value
 
@@ -25,17 +26,22 @@ class ConstantToken < Token
   end
 end
 
+
 class BooleanToken < ConstantToken
 end
+
 
 class StringToken < ConstantToken
 end
 
+
 class NumberToken < ConstantToken
 end
 
+
 class IntegerToken < NumberToken
 end
+
 
 class RealToken < NumberToken
 end
