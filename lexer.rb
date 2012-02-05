@@ -4,9 +4,16 @@ require "tokens.rb"
 require "symboltable.rb"
 require "strscan"
 
-puts
-puts 'Type something'
-input = gets
+if ARGV.length == 0
+  puts 'Type something'
+  input = gets
+  puts
+elsif ARGV.length == 1
+  input = IO.read(ARGV[0])
+else
+  puts "Usage: lexer.rb [file]"
+  exit 1
+end
 
 tokens = []
 s = StringScanner.new(input)
@@ -142,11 +149,8 @@ until s.eos?
 
 end
 
-
-puts
 puts "Token Stream"
 puts '[' + tokens.collect{ |l| l.inspect }.join(', ') + ']'
 puts
 puts "Symbol Table"
 puts st.inspect
-puts

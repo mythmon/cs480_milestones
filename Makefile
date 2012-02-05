@@ -17,3 +17,6 @@ proftest.out:
 clean:
 	rm -f *.out
 	ls
+
+compile:
+	@echo "Nothing to do"
