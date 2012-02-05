@@ -1,1 +1,5 @@
-(if true false)(println "YEAH" 45)(assign my_var 42)(assign my_var2 "HEY")
+(let ((my_var int) (my_var2 int))
+     ((if true false)
+      (println ("YEAH" 45))
+      (assign my_var 42)
+      (assign my_var2 "HEY")))
