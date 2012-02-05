@@ -16,7 +16,7 @@ line = 1
 # tokenize stream of characters with regexes in if/next fashion
 until s.eos?
 
-  # trim whitespace
+  # nom whitespace, turn input to character stream
   begin
     l = s.scan(/\s/)
     if l == '\n'
@@ -24,17 +24,7 @@ until s.eos?
     end
   end while l
 
-  # boolean
-  l = s.scan(/true/)
-  l = s.scan(/false/) unless l
-  if l
-    token = BooleanToken.new(:boolean, l)
-    st.try_set(l, token)
-    tokens << token
-    next
-  end
-
-  # parenthesis
+  # parentheses
   l = s.scan(/[()]/)
   if l
     token = Token.new(:openparen) if l == '('
@@ -44,7 +34,34 @@ until s.eos?
     next
   end
 
-  # real number / float
+  # ==========================================
+  # STATEMENTS (print, if, while, let, assign)
+  # ==========================================
+
+  # print statement
+  l = s.scan(/println/)
+  if l
+    token = Token.new(:print)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # ==========================================
+  # CONSTANTS (boolean, integer, real, string)
+  # ==========================================
+
+  # booleans
+  l = s.scan(/true/)
+  l = s.scan(/false/) unless l
+  if l
+    token = BooleanToken.new(:boolean, l)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # reals
   l = s.scan(/\d+\.(\d+)?/)
   if l
     token = RealToken.new(:real, l.to_f)
@@ -53,7 +70,7 @@ until s.eos?
     next
   end
 
-  # integer
+  # integers
   l = s.scan(/\d+/)
   if l
     token = IntegerToken.new(:int, l.to_i)
@@ -62,7 +79,7 @@ until s.eos?
     next
   end
 
-  # string literal
+  # strings (quoted)
   l = s.scan(/"(.*)"/)
   l = s.scan(/'(.*)'/) unless l
   if l
@@ -72,7 +89,7 @@ until s.eos?
     next
   end
 
-  # bare word
+  # strings (bare)
   l = s.scan(/[^\s)]+/)
   if l
     token = StringToken.new(:string, l)
