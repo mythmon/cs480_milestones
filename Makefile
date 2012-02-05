@@ -1,7 +1,7 @@
 CCC = ruby19
 CCFLAGS =
 OBJS =
-SOURCE = parser.rb
+SOURCE = lexer.rb
 RUNFLAGS =
 
 clean:
