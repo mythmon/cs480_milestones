@@ -142,16 +142,6 @@ until s.eos?
 
 end
 
-# ========================================
-# add variable assignments to symbol table
-# ========================================
-tokens.each do|token|
-    puts token.tag
-    if token.tag == "assign"
-        puts token
-    end
-end
-
 
 puts
 puts "Token Stream"
