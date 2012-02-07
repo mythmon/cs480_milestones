@@ -34,16 +34,6 @@ until s.eos?
     end
   end while l
 
-  # parentheses
-  l = s.scan(/[()]/)
-  if l
-    token = Token.new(:openparen) if l == '('
-    token = Token.new(:closeparen) if l == ')'
-    st.try_set(l, token)
-    tokens << token
-    next
-  end
-
   # ==========================================
   # STATEMENTS (print, if, while, let, assign)
   # ==========================================
@@ -88,6 +78,115 @@ until s.eos?
   l = s.scan(/assign/)
   if l
     token = Token.new(:assign)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # =====================================================
+  # OPERATORS (and, or, not, iff, +, -, *, /, %, ^, =, <)
+  # =====================================================
+  l = s.scan(/and/)
+  if l
+    token = Token.new(:and)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/or/)
+  if l
+    token = Token.new(:or)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/not/)
+  if l
+    token = Token.new(:not)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/iff/)
+  if l
+    token = Token.new(:iff)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\+/)
+  if l
+    token = Token.new(:add)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\-/)
+  if l
+    token = Token.new(:subtract)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\*/)
+  if l
+    token = Token.new(:multiply)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\//)
+  if l
+    token = Token.new(:divide)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\%/)
+  if l
+    token = Token.new(:modulus)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\^/)
+  if l
+    token = Token.new(:power)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\=/)
+  if l
+    token = Token.new(:equals)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\</)
+  if l
+    token = Token.new(:lessthan)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # parentheses
+  l = s.scan(/[()]/)
+  if l
+    token = Token.new(:openparen) if l == '('
+    token = Token.new(:closeparen) if l == ')'
     st.try_set(l, token)
     tokens << token
     next
