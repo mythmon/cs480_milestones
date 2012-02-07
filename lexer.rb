@@ -34,6 +34,94 @@ until s.eos?
     end
   end while l
 
+  # =========================================
+  # PRIMITIVE TYPES (bool, int, real, string)
+  # =========================================
+  # bool
+  l = s.scan(/bool/)
+  if l
+    token = Token.new(:bool)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # int
+  l = s.scan(/int/)
+  if l
+    token = Token.new(:int)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # real
+  l = s.scan(/real/)
+  if l
+    token = Token.new(:real)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # string
+  l = s.scan(/string/)
+  if l
+    token = Token.new(:string)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # ========================================
+  # REAL FUNCTIONS (log, e^n, sin, cos, tan)
+  # ========================================
+
+  # log
+  l = s.scan(/log/)
+  if l
+    token = Token.new(:log)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # e^n
+  l = s.scan(/e/)
+  if l
+    token = Token.new(:e)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # sin
+  l = s.scan(/sin/)
+  if l
+    token = Token.new(:sin)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # cos
+  l = s.scan(/cos/)
+  if l
+    token = Token.new(:cos)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # tan
+  l = s.scan(/tan/)
+  if l
+    token = Token.new(:tan)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
   # ==========================================
   # STATEMENTS (print, if, while, let, assign)
   # ==========================================
@@ -207,7 +295,7 @@ until s.eos?
   end
 
   # reals
-  l = s.scan(/\d+\.(\d+)?/)
+  l = s.scan(/\-?\d+\.(\d+)?/)
   if l
     token = RealToken.new(:real, l.to_f)
     st.try_set(l, token)
@@ -216,7 +304,7 @@ until s.eos?
   end
 
   # integers
-  l = s.scan(/\d+/)
+  l = s.scan(/\-?\d+/)
   if l
     token = IntegerToken.new(:int, l.to_i)
     st.try_set(l, token)
