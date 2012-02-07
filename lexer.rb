@@ -34,11 +34,89 @@ until s.eos?
     end
   end while l
 
-  # parentheses
-  l = s.scan(/[()]/)
+  # =========================================
+  # PRIMITIVE TYPES (bool, int, real, string)
+  # =========================================
+  # bool
+  l = s.scan(/bool/)
   if l
-    token = Token.new(:openparen) if l == '('
-    token = Token.new(:closeparen) if l == ')'
+    token = Token.new(:bool)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # int
+  l = s.scan(/int/)
+  if l
+    token = Token.new(:int)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # real
+  l = s.scan(/real/)
+  if l
+    token = Token.new(:real)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # string
+  l = s.scan(/string/)
+  if l
+    token = Token.new(:string)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # ========================================
+  # REAL FUNCTIONS (log, e^n, sin, cos, tan)
+  # ========================================
+
+  # log
+  l = s.scan(/log/)
+  if l
+    token = Token.new(:log)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # e^n
+  l = s.scan(/e/)
+  if l
+    token = Token.new(:e)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # sin
+  l = s.scan(/sin/)
+  if l
+    token = Token.new(:sin)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # cos
+  l = s.scan(/cos/)
+  if l
+    token = Token.new(:cos)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # tan
+  l = s.scan(/tan/)
+  if l
+    token = Token.new(:tan)
     st.try_set(l, token)
     tokens << token
     next
@@ -93,6 +171,115 @@ until s.eos?
     next
   end
 
+  # =====================================================
+  # OPERATORS (and, or, not, iff, +, -, *, /, %, ^, =, <)
+  # =====================================================
+  l = s.scan(/and/)
+  if l
+    token = Token.new(:and)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/or/)
+  if l
+    token = Token.new(:or)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/not/)
+  if l
+    token = Token.new(:not)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/iff/)
+  if l
+    token = Token.new(:iff)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\+/)
+  if l
+    token = Token.new(:add)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\-/)
+  if l
+    token = Token.new(:subtract)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\*/)
+  if l
+    token = Token.new(:multiply)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\//)
+  if l
+    token = Token.new(:divide)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\%/)
+  if l
+    token = Token.new(:modulus)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\^/)
+  if l
+    token = Token.new(:power)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\=/)
+  if l
+    token = Token.new(:equals)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  l = s.scan(/\</)
+  if l
+    token = Token.new(:lessthan)
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
+  # parentheses
+  l = s.scan(/[()]/)
+  if l
+    token = Token.new(:openparen) if l == '('
+    token = Token.new(:closeparen) if l == ')'
+    st.try_set(l, token)
+    tokens << token
+    next
+  end
+
   # ==========================================
   # CONSTANTS (boolean, integer, real, string)
   # ==========================================
@@ -108,7 +295,7 @@ until s.eos?
   end
 
   # reals
-  l = s.scan(/\d+\.(\d+)?/)
+  l = s.scan(/\-?\d+\.(\d+)?/)
   if l
     token = RealToken.new(:real, l.to_f)
     st.try_set(l, token)
@@ -117,7 +304,7 @@ until s.eos?
   end
 
   # integers
-  l = s.scan(/\d+/)
+  l = s.scan(/\-?\d+/)
   if l
     token = IntegerToken.new(:int, l.to_i)
     st.try_set(l, token)
