@@ -1,0 +1,12 @@
+digraph NFA {
+    subgraph cluster_string {
+        label="Boolean"
+
+        b0 [label=" ", shape=none]
+        b1 [label=" "]
+        b2 [label=" ", shape=doublecircle]
+
+        b0 -> b1
+        b1 -> b2 [label="true"]
+    }
+}

@@ -1,0 +1,13 @@
+digraph NFA {
+    subgraph cluster_string {
+        label="Whitespace"
+
+        w0 [label=" ", shape=none]
+        w1 [label=" "]
+        w2 [label=" ", shape=doublecircle]
+
+        w0 -> w1
+        w1 -> w1 [label="[\\t\\n ]"]
+        w1 -> w2
+    }
+}

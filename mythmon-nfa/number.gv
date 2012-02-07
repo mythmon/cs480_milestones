@@ -1,0 +1,25 @@
+digraph NFA {
+    subgraph cluster_number {
+        label="Number"
+
+        node [label=" "]
+        n0 [shape=none]
+        n4 [label="int", shape=doublecircle]
+        n6 [label="float", shape=doublecircle]
+
+        n0 -> n1
+        n1 -> n2 [label="[+-]"]
+        n1 -> n3 [label="[1-9]"]
+        n2 -> n3 [label="[1-9]"]
+        n3 -> n3 [label="[0-9]"]
+        n3 -> n4 [label="[Ff]?"]
+        n3 -> n5 [label="."]
+        n3 -> n6 [label="[Ff]"]
+        n5 -> n5 [label="[0-9]"]
+        n5 -> n6 [label="[Ff]?"]
+        n5 -> n7 [label="[eE]"]
+        n7 -> n8 [label="[1-9]"]
+        n8 -> n6 [label="[Ff]?"]
+        n8 -> n8 [label="[0-9]"]
+    }
+}

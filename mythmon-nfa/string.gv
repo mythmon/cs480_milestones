@@ -1,0 +1,36 @@
+digraph NFA {
+    subgraph cluster_string {
+        label="String"
+
+        node [label=" "]
+
+        s0 [shape=none]
+        s2 [label="Bare word"]
+        s2 [label="Bare word"]
+        s3 [label="Double Quote"]
+        s5 [label="Single Quote"]
+        s7 [shape=doublecircle, label="String"]
+
+        s0 -> s1
+        s1 -> s2
+        s1 -> s3
+        s1 -> s5
+
+        s2 -> s2 [label="[^\s'\"]"]
+        s2 -> s7
+
+        s3 -> s3 [label="[^\"\\]"]
+        { rank=same
+            s3 -> s4 [label="\\"]
+            s4 -> s3 [label="[\\nt\"]"]
+        }
+        s3 -> s7
+
+        s5 -> s5 [label="[^'\\]"]
+        { rank=same
+            s5 -> s6 [label="\\"]
+            s6 -> s5 [label="[\\nt']"]
+        }
+        s5 -> s7
+    }
+}
