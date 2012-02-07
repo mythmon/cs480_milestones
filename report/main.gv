@@ -1,0 +1,29 @@
+digraph NFA {
+    subgraph cluster_main {
+        label="Main"
+
+        0 [label=" ", shape=none]
+        1 [label=" "]
+        2 [label=" "]
+        3 [label="Number", shape=box]
+        4 [label="String", shape=box]
+        5 [label="Boolean", shape=box]
+        6 [label="Whitespace", shape=box]
+        7 [label="Tokenize"]
+        8 [label=" ", shape=doublecircle]
+
+        node [shape=box]; 3; 4; 5;
+        node [shape=circle];
+
+        { rank=same; 3; 4; 5; 6; }
+
+        0 -> 1
+        1 -> 2 [label=" ("]
+        2 -> 7 [label="[()]"]
+        2 -> 3 -> 7
+        2 -> 4 -> 7
+        2 -> 5 -> 7
+        7 -> 6 -> 2
+        7 -> 8 [label=" )"]
+    }
+}

@@ -1,4 +1,5 @@
 digraph NFA {
+    rankdir=LR
     subgraph cluster_string {
         label="Boolean"
 
@@ -8,5 +9,6 @@ digraph NFA {
 
         b0 -> b1
         b1 -> b2 [label="true"]
+        b1 -> b2 [label="false"]
     }
 }
