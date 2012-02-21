@@ -7,7 +7,7 @@ class Token
     @tag = tag
   end
 
-  def inspect()
+  def to_s
     '<%s: %s>' % [self.class, @tag]
   end
 end
@@ -21,7 +21,7 @@ class ConstantToken < Token
     @value = value
   end
 
-  def inspect()
+  def to_s()
     '<%s: %s - %s>' % [self.class, @tag, @value]
   end
 end
