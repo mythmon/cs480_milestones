@@ -4,14 +4,6 @@ require "tokens.rb"
 require "symboltable.rb"
 require "lexer.rb"
 
-def accept(enum, tag)
-  if enum.peek.tag == tag
-    enum.next
-  else
-    nil
-  end
-end
-
 def expect(enum, tag)
   if enum.peek.tag == tag
     enum.next
@@ -26,10 +18,14 @@ def parser
   tree = []
   tokens = tokenize(input).to_enum
 
-  loop do
-    tree << expect(tokens, :openparen)
-    tree << expr(tokens)
-    tree << expect(tokens, :closeparen)
+  begin
+    loop do
+      tree << expect(tokens, :openparen)
+      tree << expr(tokens)
+      tree << expect(tokens, :closeparen)
+    end
+  rescue SyntaxError
+    puts "Found SyntaxError"
   end
 
   print_teh_tree(tree)
@@ -38,16 +34,14 @@ end
 def expr(tokens)
   tree = []
   loop do
-    t = accept(tokens, :openparen)
-    if t
-      tree << t
-      tree << expr(tokens)
-      tree << expect(tokens, :closeparen)
-    end
-
     t = tokens.peek
     if t.tag == :closeparen
       break
+    elsif t.tag == :openparen
+      tokens.next
+      tree << t
+      tree << expr(tokens)
+      tree << expect(tokens, :closeparen)
     else
       tree << tokens.next
     end
