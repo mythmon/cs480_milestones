@@ -12,7 +12,7 @@ def expect(enum, tag)
       raise SyntaxError
     end
   rescue StopIteration
-      raise SyntaxError
+    raise SyntaxError
   end
 end
 
@@ -22,14 +22,18 @@ def parser
   tree = []
   tokens = tokenize(input).to_enum
 
-  begin
-    loop do
-      tree << expect(tokens, :openparen)
+  loop do
+    # If we are at the end of the file, this will raise a StopIteration, and stop the loop. Otherwise, expect will throw an error.
+    t = tokens.peek
+    if t.nil?
+      break
+    elsif t.tag == :openparen
+      tree << tokens.next
       tree << expr(tokens)
       tree << expect(tokens, :closeparen)
+    else
+      raise SyntaxError
     end
-  rescue SyntaxError
-    puts "Found SyntaxError"
   end
 
   puts "+++ Tree Format +++"
@@ -46,8 +50,7 @@ def expr(tokens)
     if t.tag == :closeparen
       break
     elsif t.tag == :openparen
-      tokens.next
-      tree << t
+      tree << tokens.next
       tree << expr(tokens)
       tree << expect(tokens, :closeparen)
     else

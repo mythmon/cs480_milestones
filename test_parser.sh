@@ -65,6 +65,8 @@ do
             test_bad
             ;;
         *)
+            test_good
+            test_bad
             ;;
     esac
 done
