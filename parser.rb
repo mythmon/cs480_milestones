@@ -32,7 +32,11 @@ def parser
     puts "Found SyntaxError"
   end
 
+  puts "+++ Tree Format +++"
   print_teh_tree(tree)
+  puts ""
+  puts "+++ Array Format +++"
+  p tree
 end
 
 def expr(tokens)
