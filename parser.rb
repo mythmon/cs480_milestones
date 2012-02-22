@@ -5,10 +5,14 @@ require "symboltable.rb"
 require "lexer.rb"
 
 def expect(enum, tag)
-  if enum.peek.tag == tag
-    enum.next
-  else
-    raise SyntaxError
+  begin
+    if enum.peek.tag == tag
+      enum.next
+    else
+      raise SyntaxError
+    end
+  rescue StopIteration
+      raise SyntaxError
   end
 end
 
