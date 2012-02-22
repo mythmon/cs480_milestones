@@ -1,0 +1,25 @@
+F   -> T F
+T   -> ( S )
+S   -> ( ) |
+
+    -> atom |    <---+--- amb. [1]
+    -> atom S |  <---+
+
+    -> ( S ) |  <-- amb. [2]
+    -> () S |
+    -> ( S ) S  <-- amb. [3]
+
+Fixes
+-----
+S'   -> S | e  <-- This fixes the above problem
+
+[1]
+S   -> atom S'
+
+[2]
+S   -> ( S' )
+
+[3]
+S   -> ( S' ) S'
+S   -> atom S'
+
