@@ -9,9 +9,11 @@ def expect(enum, tag)
     if enum.peek.tag == tag
       enum.next
     else
+      puts "Syntax Error"
       raise SyntaxError
     end
   rescue StopIteration
+    puts "Syntax Error"
     raise SyntaxError
   end
 end
@@ -32,6 +34,7 @@ def parser
       tree << expr(tokens)
       tree << expect(tokens, :closeparen)
     else
+      puts "Syntax Error"
       raise SyntaxError
     end
   end
