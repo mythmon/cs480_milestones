@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ruby=/usr/bin/ruby1.9.1
+ruby=/usr/bin/ruby19
 
 function test_good(){
 echo "**************** Valid Expressions ****************"

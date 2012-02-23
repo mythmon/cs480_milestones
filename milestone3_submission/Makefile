@@ -1,4 +1,4 @@
-CCC = ruby1.9.1
+CCC = ruby19
 CCFLAGS =
 OBJS =
 SOURCE = parser.rb
