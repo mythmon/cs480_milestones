@@ -19,7 +19,7 @@
 (println (e 90.0))
 
 (assign i 0)
-(while (i(<)5) (
+(while (i<5) (
     (println (i % 5))
     (assign i (+ i 1))
 ))

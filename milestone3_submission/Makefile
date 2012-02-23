@@ -3,14 +3,13 @@ CCFLAGS =
 OBJS =
 SOURCE = parser.rb
 RUNFLAGS =
+PROFTEST = proftest.in
 
 stutest.out:
-	cat $(SOURCE)
-	$(CCC) $(RUNFLAGS) $(SOURCE) stutest1.in > stutest1.out
+	bash test_parser.sh > stutest1.out
 	cat stutest1.out
 
 proftest.out:
-	cat $(PROFTEST)
 	$(CCC) $(RUNFLAGS) $(SOURCE) $(PROFTEST) > proftest.out
 	cat proftest.out
 
