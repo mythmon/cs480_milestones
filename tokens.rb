@@ -21,8 +21,12 @@ class ConstantToken < Token
     @value = value
   end
 
-  def to_s()
+  def to_s
     '<%s: %s - %s>' % [self.class, @tag, @value]
+  end
+
+  def to_gforth
+      value.to_s
   end
 end
 
