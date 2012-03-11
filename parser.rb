@@ -17,8 +17,6 @@ def expect(enum, tag)
 end
 
 def parser(input)
-  input = IO.read(ARGV[0])
-
   tree = []
   tokens = tokenize(input).to_enum
 
@@ -41,7 +39,7 @@ def parser(input)
   # puts ""
   # puts "+++ Array Format +++"
   # p tree
-  tree
+  strip_parens(tree)[0]
 end
 
 def expr(tokens)
@@ -70,4 +68,23 @@ def print_teh_tree(tree, level=0)
       puts("\t"*level + t.to_s)
     end
   end
+end
+
+def strip_parens(tree)
+
+  arr = Array.new
+
+  tree.each do|token|
+    if token.is_a? Token
+      if token.tag == :openparen or token.tag == :closeparen
+        next
+      end
+      arr << token
+    elsif token.class == Array
+      arr << strip_parens(token)
+    end
+  end
+
+  return arr
+
 end
