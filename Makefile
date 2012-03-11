@@ -1,7 +1,7 @@
 CCC = ruby1.9.1
 CCFLAGS =
 OBJS =
-SOURCE = parser.rb
+SOURCE = translator.rb
 RUNFLAGS =
 
 stutest.out:
