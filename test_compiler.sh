@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ruby=/usr/bin/ruby19
-compiler="comiler.rb"
+compiler="./translator.rb"
 gforth="gforth"
 tmp_fs="./test_programs/tmp_test.fs" # Temporary output for compiles gforth
 tmp_gforth_output="./test_programs/tmp_test.out" # Temporary outpur for results of compiled gforth program
