@@ -9,14 +9,16 @@ def expect(enum, tag)
     if enum.peek.tag == tag
       enum.next
     else
+      puts "Syntax Error"
       raise SyntaxError
     end
   rescue StopIteration
+    puts "Syntax Error"
     raise SyntaxError
   end
 end
 
-def parser(input)
+def parser
   input = IO.read(ARGV[0])
 
   tree = []
@@ -32,16 +34,16 @@ def parser(input)
       tree << expr(tokens)
       tree << expect(tokens, :closeparen)
     else
+      puts "Syntax Error"
       raise SyntaxError
     end
   end
 
-  # puts "+++ Tree Format +++"
-  # print_teh_tree(tree)
-  # puts ""
-  # puts "+++ Array Format +++"
-  # p tree
-  tree
+  puts "+++ Tree Format +++"
+  print_teh_tree(tree)
+  puts ""
+  puts "+++ Array Format +++"
+  p tree
 end
 
 def expr(tokens)
@@ -67,7 +69,9 @@ def print_teh_tree(tree, level=0)
     if t.kind_of? Array
       print_teh_tree(t, level+1)
     else
-      puts("\t"*level + t.to_s)
+      puts ("\t"*level) + t.to_s
     end
   end
 end
+
+parser
