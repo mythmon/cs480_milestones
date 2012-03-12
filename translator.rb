@@ -20,6 +20,7 @@ def translate(tree)
     '+'         => [:ibtl_plus, 2],
     'f+'        => [:ibtl_fplus, 2],
     '-'         => [:ibtl_minus, 2],
+    'f-'        => [:ibtl_fminus, 2],
     'neg'       => [:ibtl_negate, 1],
     '*'         => [:ibtl_times, 2],
     '/'         => [:ibtl_divide, 2],
@@ -101,6 +102,12 @@ def ibtl_plus(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
   OutputToken.new(:int, "#{arg0} #{arg1} +")
+end
+
+def ibtl_fminus(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  OutputToken.new(:real, "#{arg0} #{arg1} f-")
 end
 
 def ibtl_minus(arg0, arg1)
