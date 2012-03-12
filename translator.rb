@@ -84,7 +84,7 @@ def ibtl_println(arg)
   case arg.tag
   when :int, :boolean
     OutputToken.new(nil, "#{gf} . cr")
-  when :float
+  when :float, :real
     OutputToken.new(nil, "#{gf} f. cr")
   when :string
     OutputToken.new(nil, "#{gf} cr")
