@@ -208,9 +208,9 @@ function good_programs(){
 
 }
 function stats(){
-    echo -e "Tests passed: \033[$FG_PASS\033[$BG $TESTS_PASSED  \033[0m\n";
-    echo -e "Tests failed: \033[$FG_FAIL\033[$BG $TESTS_FAILED  \033[0m\n";
-    echo -e "Tests errored: \033[$FG_ERROR\033[$BG $TESTS_ERROR  \033[0m\n";
+    echo -e "Tests passed: \033[$FG_PASS\033[$BG $TESTS_PASSED  \033[0m";
+    echo -e "Tests failed: \033[$FG_FAIL\033[$BG $TESTS_FAILED  \033[0m";
+    echo -e "Tests errored: \033[$FG_ERROR\033[$BG $TESTS_ERROR  \033[0m";
 }
 function usage(){
      echo 'Usage: -a -b'
