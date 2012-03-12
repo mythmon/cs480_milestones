@@ -26,19 +26,26 @@ function bad_programs(){
             echo -n "[DEBUG] "
             echo "\$dirname: $dirname"
         fi
+        # basename
+        basename=`basename "$file"`
+        # everything after last '/'
+        basename=${file##*/}
+        if [ $DEBUG -eq 1 ]; then
+            echo -n "[DEBUG] "
+            echo "\$basename: $basename"
+        fi
 
         ext=${file##*.}
         if [ $DEBUG -eq 1 ]; then
             echo -n "[DEBUG] "
             echo "\$ext: $ext"
         fi
-        echo "=============================================="
-        echo "------- Compiling Testing [ "$(cat $file)" ]"
-        echo "-------                   [ "$file" ]"
+        echo -n "--> Compiling Testing [ "$basename" ] |||| [ "$(cat $file)" ]"
 
         if [ "$ext" != 'ibtl' ]
         then
             if [ $DEBUG -eq 1 ]; then
+                echo
                 echo -n "[DEBUG] "
                 echo "Skipping $file"
             fi
@@ -51,6 +58,7 @@ function bad_programs(){
         fi
         $ruby $compiler $file > $tmp_fs
         if [ $? -ne 1 ]; then
+            echo
             echo "        [FAIL] $file reported a success return value"
             # Print ibtl
             echo "++++++ IBTL file"
@@ -62,7 +70,7 @@ function bad_programs(){
             cat $file
             continue
         else
-            echo "        [PASS] $file did not compile"
+            echo "        [PASS]"
         fi
         rm -f $tmp_gforth_output
         rm -f $tmp_fs
@@ -126,10 +134,9 @@ function good_programs(){
                 continue # Skip the expect only use the ibtl files.
             fi
             # Let's make sure this an ibtl file.
-            echo "=============================================="
-            echo "------- Compiling Testing [ "$(cat $file)" ]"
-            echo "-------                   [ "$file" ]"
+            echo -n "--> Compiling Testing [ "$basename" ] |||| [ "$(cat $file)" ]"
             if [ $DEBUG -eq 1 ]; then
+                echo
                 echo -n "[DEBUG] "
                 echo "\$file: $file"
             fi
@@ -142,6 +149,7 @@ function good_programs(){
             $ruby $compiler $file > $tmp_fs
 
             if [ $? -eq 1 ]; then
+                echo
                 echo "        [FAIL] $file did not compile"
                 # Print ibtl
                 echo "++++++ IBTL file"
