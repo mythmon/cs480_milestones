@@ -154,7 +154,7 @@ function good_programs(){
             if [ $? -eq 1 ]; then
                 echo
                 TESTS_ERROR=$((TESTS_ERROR+1))
-                echo -ne "\033[$FG_ERROR\033[$BG  FAIL \033[0m\n";
+                echo -ne "\033[$FG_ERROR\033[$BG  ERROR \033[0m\n";
                 echo "$basename crashed gforth"
                 # Print ibtl
                 echo "++++++ IBTL file"
