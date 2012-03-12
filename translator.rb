@@ -17,6 +17,7 @@ def translate(tree)
   ops = {
     '+'         => [:ibtl_add, 2],
     'and'       => [:ibtl_and, 2],
+    'concat'    => [:ibtl_concat, 2],
     '/'         => [:ibtl_div, 2],
     '='         => [:ibtl_eq, 2],
     'e'         => [:ibtl_exp, 1],
