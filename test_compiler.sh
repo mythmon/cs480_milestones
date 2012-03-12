@@ -258,12 +258,21 @@ function usage(){
      echo '-b: bad tests'
 }
 
-args=`getopt :agb $*`
+args=`getopt :dagb $*`
 if test $? != 0
 then
     usage
     exit 1
 fi
+
+for arg in $args
+do
+    case $arg in
+        '-d')
+            DEBUG=1
+            ;;
+    esac
+done
 
 for arg in $args
 do
