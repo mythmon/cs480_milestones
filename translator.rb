@@ -28,6 +28,9 @@ def translate(tree)
     'f*'        => [:ibtl_fmult, 2],
     'fneg'      => [:ibtl_fneg, 1],
     'f^'        => [:ibtl_fpower, 2],
+    'cos'       => [:ibtl_fcos, 1],
+    'sin'       => [:ibtl_fsin, 1],
+    'tan'       => [:ibtl_ftan, 1],
     'iff'       => [:ibtl_iff, 2],
     '<'         => [:ibtl_lt, 2],
     '-'         => [:ibtl_minus, 2],
@@ -129,6 +132,11 @@ def ibtl_fadd(arg0, arg1)
   OutputToken.new(:real, "#{arg0} #{arg1} f+")
 end
 
+def ibtl_fcos(arg)
+  arg = to_gforth arg
+  OutputToken.new(:real, "#{arg} fcos")
+end
+
 def ibtl_fdiv(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
@@ -168,6 +176,16 @@ def ibtl_fpower(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
   OutputToken.new(:real, "#{arg0} #{arg1} f**")
+end
+
+def ibtl_fsin(arg)
+  arg = to_gforth arg
+  OutputToken.new(:real, "#{arg} fsin")
+end
+
+def ibtl_ftan(arg)
+  arg = to_gforth arg
+  OutputToken.new(:real, "#{arg} ftan")
 end
 
 def ibtl_iff(arg0, arg1)
