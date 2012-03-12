@@ -51,29 +51,69 @@ def tokenize(input)
 
     # reals
 
-    l = s.scan(/\-?\d+\.(\d+)?e(\d+)?/)
+    l = s.scan(/[+-]?[1-9]\d*\.\d*(e[+-]?\d+)?f?/)
     if l
-      token = RealToken.new(:real, l.to_f)
+      token = RealToken.new(:real, l)
       st.try_set(l, token)
       tokens << token
       next
     end
 
-    l = s.scan(/\-?\d+e(\d+)?/)
+    l = s.scan(/[+-]?0\.\d*(e[+-]?\d+)?f?/)
     if l
-      token = RealToken.new(:real, l.to_f)
+      token = RealToken.new(:real, l)
       st.try_set(l, token)
       tokens << token
       next
     end
 
-    l = s.scan(/\-?\d+\.(\d+)?/)
+    l = s.scan(/[+-]?[1-9]\d*e[+-]?\d+f?/)
     if l
-      token = RealToken.new(:real, l.to_f)
+      token = RealToken.new(:real, l)
       st.try_set(l, token)
       tokens << token
       next
     end
+
+    l = s.scan(/[+-]?[1-9]\d*f/)
+    if l
+      token = RealToken.new(:real, l)
+      st.try_set(l, token)
+      tokens << token
+      next
+    end
+
+#    l = s.scan(/\-?\d+\.(\d+)?e\-?(\d+)?/)
+#    if l
+#      token = RealToken.new(:real, l.to_f)
+#      st.try_set(l, token)
+#      tokens << token
+#      next
+#    end
+#
+#    l = s.scan(/\-?\d+e\-?(\d+)?/)
+#    if l
+#      token = RealToken.new(:real, l.to_f)
+#      st.try_set(l, token)
+#      tokens << token
+#      next
+#    end
+#
+#    l = s.scan(/\-?\d+\.(\d+)?/)
+#    if l
+#      token = RealToken.new(:real, l.to_f)
+#      st.try_set(l, token)
+#      tokens << token
+#      next
+#    end
+#
+#    l = s.scan(/\-?\d+f/)
+#    if l
+#      token = RealToken.new(:int, l.to_f)
+#      st.try_set(l, token)
+#      tokens << token
+#      next
+#    end
 
 
     # integers
