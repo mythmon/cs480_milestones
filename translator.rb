@@ -38,21 +38,6 @@ def translate(tree)
     '^'         => [:ibtl_power, 2],  
     'print'     => [:ibtl_print, 1],  
     'println'   => [:ibtl_println, 1],
-<<<<<<< HEAD
-=======
-    'print'     => [:ibtl_print, 1],
-    '+'         => [:ibtl_plus, 2],
-    'f+'        => [:ibtl_fplus, 2],
-    '-'         => [:ibtl_minus, 2],
-    'neg'       => [:ibtl_negate, 1],
-    '*'         => [:ibtl_times, 2],
-    '/'         => [:ibtl_divide, 2],
-    '^'         => [:ibtl_power, 2],
-    'and'       => [:ibtl_and, 2],
-    'or'        => [:ibtl_or, 2],
-    'iff'       => [:ibtl_iff, 2],
-    'not'       => [:ibtl_not, 1],
->>>>>>> 3a12bb04b47fbfd25258e48f42f182588244d0a9
   }
 
   output = []
@@ -147,13 +132,13 @@ end
 def ibtl_fdiv(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} f/")
+  OutputToken.new(:real, "#{arg0} #{arg1} f/")
 end
 
 def ibtl_feq(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} f=")
+  OutputToken.new(:boolean, "#{arg0} #{arg1} f=")
 end
 
 def ibtl_flt(arg0, arg1)
@@ -165,24 +150,24 @@ end
 def ibtl_fminus(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} f-")
+  OutputToken.new(:real, "#{arg0} #{arg1} f-")
 end
 
 def ibtl_fmult(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} f*")
+  OutputToken.new(:real, "#{arg0} #{arg1} f*")
 end
 
 def ibtl_fneg(arg0)
   arg0 = to_gforth arg0
-  OutputToken.new(:int, "0e #{arg0} f-")
+  OutputToken.new(:real, "0e #{arg0} f-")
 end
 
 def ibtl_fpower(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} f**")
+  OutputToken.new(:real, "#{arg0} #{arg1} f**")
 end
 
 def ibtl_iff(arg0, arg1)
@@ -228,7 +213,7 @@ end
 def ibtl_power(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0}e #{arg1}e f**")
+  OutputToken.new(:real, "#{arg0}e #{arg1}e f**")
 end
 
 def ibtl_println(arg)
