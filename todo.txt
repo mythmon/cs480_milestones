@@ -7,12 +7,12 @@
 
 ### Integer
 [x] plus        2       +
-[ ] minus       2       -
-[ ] negate      1       neg
-[ ] times       2       *
-[ ] divide      2       /
+[/] minus       2       -
+[/] negate      1       neg
+[/] times       2       *
+[/] divide      2       /
 [ ] remainder   2       %
-[ ] power       2       ^
+[/] power       2       ^
 [ ] less than   2       <
 [ ] equal       2       =
 
@@ -38,3 +38,4 @@
 [ ] float       1       float
 [ ] int         1       int
 [x] println     1       println
+[/] print       1       print

@@ -15,8 +15,14 @@ end
 
 def translate(tree)
     ops = {
-        'println' => [:ibtl_println, 1],
-        '+' => [:ibtl_plus, 2],
+        'println'   => [:ibtl_println, 1],
+        'print'     => [:ibtl_print, 1],
+        '+'         => [:ibtl_plus, 2],
+        '-'         => [:ibtl_minus, 2],
+        'neg'       => [:ibtl_negate, 1],
+        '*'         => [:ibtl_times, 2],
+        '/'         => [:ibtl_div, 2],
+        '^'         => [:ibtl_power, 2],
     }
 
     output = ''
@@ -46,7 +52,7 @@ def translate(tree)
                    args << a
                end
             end
-            output += method(func).call(args) + ' '
+            output += method(func).call(*args) + ' '
         end
     end
 
@@ -65,15 +71,44 @@ def ibtl_noop(args)
     return ''
 end
 
-def ibtl_println(args)
-    arg = to_gforth args[0]
-    "#{arg} ."
+def ibtl_println(arg)
+    arg = to_gforth arg
+    "#{arg} . cr"
 end
 
-def ibtl_plus(args)
-    arg0 = to_gforth args[0]
-    arg1 = to_gforth args[1]
-    return "#{arg0} #{arg1} +"
+def ibtl_plus(arg0, arg1)
+    arg0 = to_gforth arg0
+    arg1 = to_gforth arg1
+    "#{arg0} #{arg1} +"
+end
+
+def ibtl_minus(arg0, arg1)
+    arg0 = to_gforth arg0
+    arg1 = to_gforth arg1
+    "#{arg0} #{arg1} -"
+end
+
+def ibtl_negate(arg)
+    arg = to_gforth arg
+    "0 #{arg} -"
+end
+
+def ibtl_times(arg0, arg1)
+    arg0 = to_gforth arg0
+    arg1 = to_gforth arg1
+    "#{arg0} #{arg1} *"
+end
+
+def ibtl_divide(arg0, arg1)
+    arg0 = to_gforth arg0
+    arg1 = to_gforth arg1
+    "#{arg0} #{arg1} /"
+end
+
+def ibtl_power(arg0, arg1)
+    arg0 = to_gforth arg0
+    arg1 = to_gforth arg1
+    "#{arg0} #{arg1} ^"
 end
 
 puts translator
