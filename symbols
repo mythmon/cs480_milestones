@@ -1,16 +1,14 @@
-Boolean
-=======
+### Boolean
 Operator    Args    IBTL
 and         2       and
 or          2       or
 not         1       not
 iff         2       iff
 
-Integer
-=======
+### Integer
 plus        2       +
 minus       2       -
-negate      1       -
+negate      1       neg
 times       2       *
 divide      2       /
 remainder   2       %
@@ -18,22 +16,24 @@ power       2       ^
 less than   2       <
 equal       2       =
 
-Floating
-========
-plus        2       +
-minus       2       -
-negate      1       -
-times       2       *
-divide      2       /
-remainder   2       %
-power       2       ^
+### Floating
+plus        2       f+
+minus       2       f-
+negate      1       fneg
+times       2       f*
+divide      2       f/
+remainder   2       f%
+power       2       f^
 sin         1       sin
 cos         1       cos
 tan         1       tan
-exp         1       ^
-less than   2       <
-equal       2       =
+exp         1       e
+less than   2       f<
+equal       2       f=
 
-String
-======
+### String
 concat      2       concat
+
+### Us
+float       1       float
+int         1       int
