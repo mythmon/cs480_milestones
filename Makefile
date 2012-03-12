@@ -15,7 +15,7 @@ proftest.out:
 	cat proftest.out
 
 test:
-	@./test_compiler.sh
+	@./test_compiler.sh -a
 
 clean:
 	rm -f *.out
