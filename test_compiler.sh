@@ -161,7 +161,7 @@ function good_programs(){
                 fi
                 cat $file
                 # Print compiled
-                echo "++++++ Compiled Code"
+                echo "++++++ Compiler Output"
                 if [ $DEBUG -eq 1 ]; then
                     echo -n "[DEBUG] "
                     echo "cat $tmp_fs"
