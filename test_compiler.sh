@@ -178,6 +178,12 @@ function good_programs(){
             then
                 echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m\n";
                 TESTS_PASSED=$((TESTS_PASSED+1))
+                echo
+                echo "++++++ IBTL file"
+                # Print expect
+                debug "cat $file"
+                cat $file
+
                 rm -f $tmp_gforth_output
                 rm -f $tmp_fs
                 continue #Next test
