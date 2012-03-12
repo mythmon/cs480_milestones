@@ -153,19 +153,20 @@ function good_programs(){
             if [ $? -eq 1 ]; then
                 echo
                 echo "        [FAIL] $file did not compile"
-                # Print ibtl
+                # Print IBTL
                 echo "++++++ IBTL file"
-                if [ $DEBUG -eq 1 ]; then
-                    echo -n "[DEBUG] "
-                    echo "cat $tmp_fs"
-                fi
-                cat $tmp_fs
-                # Print expect
                 if [ $DEBUG -eq 1 ]; then
                     echo -n "[DEBUG] "
                     echo "cat $file"
                 fi
                 cat $file
+                # Print compiled
+                echo "++++++ Compiled Code"
+                if [ $DEBUG -eq 1 ]; then
+                    echo -n "[DEBUG] "
+                    echo "cat $tmp_fs"
+                fi
+                cat $tmp_fs
                 rm -f $tmp_gforth_output
                 rm -f $tmp_fs
                 continue
