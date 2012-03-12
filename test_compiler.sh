@@ -215,15 +215,18 @@ function good_programs(){
     done
 
 }
+function usage(){
+     echo 'Usage: -a -b'
+     echo '-g: good tests'
+     echo '-a: all tests'
+     echo '-b: bad tests'
+}
 
-args=`getopt agb:d $*`
+args=`getopt :agb $*`
 if test $? != 0
-     then
-         echo 'Usage: -a -b'
-         echo '-g: good tests'
-         echo '-a: all tests'
-         echo '-b: bad tests'
-         exit 1
+then
+    usage
+    exit 1
 fi
 
 for arg in $args
@@ -232,20 +235,16 @@ do
         '-g')
             good_programs
             ;;
-        '--good')
-            good_programs
-            ;;
         '-b')
             bad_programs
             ;;
-        '--bad')
+        '-a')
+            good_programs
             bad_programs
             ;;
         *)
-            good_programs
             ;;
     esac
 done
 
 exit
-
