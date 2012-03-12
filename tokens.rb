@@ -33,11 +33,7 @@ end
 
 class BooleanToken < ConstantToken
   def to_gforth
-    if value
-      '-1' # -1 is gforth's true.
-    else
-      '0' # 0 is gforth's false
-    end
+    value.to_s
   end
 end
 
