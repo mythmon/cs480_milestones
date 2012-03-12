@@ -6,7 +6,7 @@ gforth="gforth"
 tmp_fs="./test_programs/tmp_test.fs" # Temporary output for compiles gforth
 tmp_gforth_output="./test_programs/tmp_test.out" # Temporary outpur for results of compiled gforth program
 test_dir="./test_programs"
-DEBUG=1
+DEBUG=0
 
 function test_programs(){
 FILES="./test_programs/*"
