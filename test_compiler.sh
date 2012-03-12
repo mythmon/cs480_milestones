@@ -66,14 +66,6 @@ function bad_programs(){
             echo
             echo -ne "\033[$FG_crash\033[$BG  FAIL \033[0m";
             echo "$basename reported a success error value"
-            # Print ibtl
-            echo "++++++ IBTL file"
-            # Print expect
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "cat $file"
-            fi
-            cat $file
             rm -f $tmp_gforth_output
             rm -f $tmp_fs
             continue
@@ -161,13 +153,6 @@ function good_programs(){
                 echo
                 echo -ne "\033[$FG\033[$BG  FAIL \033[0m";
                 echo - "$basename did not compile"
-                # Print IBTL
-                echo "++++++ IBTL file"
-                if [ $DEBUG -eq 1 ]; then
-                    echo -n "[DEBUG] "
-                    echo "cat $file"
-                fi
-                cat $file
                 # Print compiled
                 echo "++++++ Compiler Output"
                 if [ $DEBUG -eq 1 ]; then
@@ -193,13 +178,6 @@ function good_programs(){
                 echo
                 echo -ne "\033[$FG_crash\033[$BG  FAIL \033[0m";
                 echo "$basename crashed gforth"
-                # Print ibtl
-                echo "++++++ IBTL file"
-                if [ $DEBUG -eq 1 ]; then
-                    echo -n "[DEBUG] "
-                    echo "cat $file"
-                fi
-                cat $file
                 # Print compiled gforth
                 echo "++++++ Compiled gforth"
                 if [ $DEBUG -eq 1 ]; then
