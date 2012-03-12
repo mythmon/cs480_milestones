@@ -8,7 +8,7 @@ require "parser.rb"
 def translator
   input = IO.read(ARGV[0])
   tree = parser(input)
-  output = translate(tree)
+  output = translate(tree).join(' ')
   output += "\nbye"
   # write output to a file?
 end
@@ -38,15 +38,30 @@ def translate(tree)
     '^'         => [:ibtl_power, 2],  
     'print'     => [:ibtl_print, 1],  
     'println'   => [:ibtl_println, 1],
+<<<<<<< HEAD
+=======
+    'print'     => [:ibtl_print, 1],
+    '+'         => [:ibtl_plus, 2],
+    'f+'        => [:ibtl_fplus, 2],
+    '-'         => [:ibtl_minus, 2],
+    'neg'       => [:ibtl_negate, 1],
+    '*'         => [:ibtl_times, 2],
+    '/'         => [:ibtl_divide, 2],
+    '^'         => [:ibtl_power, 2],
+    'and'       => [:ibtl_and, 2],
+    'or'        => [:ibtl_or, 2],
+    'iff'       => [:ibtl_iff, 2],
+    'not'       => [:ibtl_not, 1],
+>>>>>>> 3a12bb04b47fbfd25258e48f42f182588244d0a9
   }
 
-  output = ''
+  output = []
 
   tree = tree.to_enum
   loop do
     n = tree.next
     if n.is_a? Array
-      output += translate(n) + ' '
+      output.concat translate(n)
     else
       begin
         key = n.value
@@ -62,14 +77,14 @@ def translate(tree)
       arg_count.times do |i|
         a = tree.next
         if a.is_a? Array
-          args << translate(a)
+          args.concat translate(a)
         else
           args << a
         end
       end
       func = method(func)
       result = func.call(*args)
-      output += result.to_gforth + ' '
+      output << result
     end
   end
 
@@ -126,7 +141,7 @@ end
 def ibtl_fadd(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} f+")
+  OutputToken.new(:real, "#{arg0} #{arg1} f+")
 end
 
 def ibtl_fdiv(arg0, arg1)
@@ -218,7 +233,14 @@ end
 
 def ibtl_println(arg)
   arg = to_gforth arg
-  OutputToken.new(nil, "#{arg} . cr")
+  case arg.tag
+  when :int, :boolean
+    OutputToken.new(nil, "#{gf} . cr")
+  when :float, :real
+    OutputToken.new(nil, "#{gf} f. cr")
+  when :string
+    OutputToken.new(nil, "#{gf} cr")
+  end
 end
 
 puts translator
