@@ -8,7 +8,7 @@ require "parser.rb"
 def translator
   input = IO.read(ARGV[0])
   tree = parser(input)
-  output = translate(tree)
+  output = translate(tree).join(' ')
   output += "\nbye"
   # write output to a file?
 end
@@ -29,13 +29,13 @@ def translate(tree)
     'not'       => [:ibtl_not, 1],
   }
 
-  output = ''
+  output = []
 
   tree = tree.to_enum
   loop do
     n = tree.next
     if n.is_a? Array
-      output += translate(n) + ' '
+      output.concat translate(n)
     else
       begin
         key = n.value
@@ -51,14 +51,14 @@ def translate(tree)
       arg_count.times do |i|
         a = tree.next
         if a.is_a? Array
-          args << translate(a)
+          args.concat translate(a)
         else
           args << a
         end
       end
       func = method(func)
       result = func.call(*args)
-      output += result.to_gforth + ' '
+      output << result
     end
   end
 
@@ -78,9 +78,16 @@ def ibtl_noop(args)
 end
 
 def ibtl_println(arg)
-  arg = to_gforth arg
+  gf = to_gforth(arg)
 
-  OutputToken.new(nil, "#{arg} . cr")
+  case arg.tag
+  when :int, :boolean
+    OutputToken.new(nil, "#{gf} . cr")
+  when :float
+    OutputToken.new(nil, "#{gf} f. cr")
+  when :string
+    OutputToken.new(nil, "#{gf} cr")
+  end
 end
 
 def ibtl_plus(arg0, arg1)

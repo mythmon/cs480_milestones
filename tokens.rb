@@ -63,6 +63,9 @@ class RealToken < NumberToken
 end
 
 class OutputToken < ConstantToken
+  def to_s
+    self.value
+  end
 end
 
 #EOF vim: sw=2:ts=2
