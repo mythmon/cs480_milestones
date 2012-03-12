@@ -138,6 +138,12 @@ def ibtl_fcos(arg)
   OutputToken.new(:real, "#{arg} fcos")
 end
 
+def ibtl_ftimes(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  OutputToken.new(:real, "#{arg0} #{arg1} f*")
+end
+
 def ibtl_fdiv(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
