@@ -231,7 +231,7 @@ end
 def ibtl_power(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0}e #{arg1}e f**")
+  OutputToken.new(:int, "#{arg0}e #{arg1}e f** f>d drop")
 end
 
 def ibtl_println(arg)
