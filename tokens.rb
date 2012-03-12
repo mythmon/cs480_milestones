@@ -26,16 +26,25 @@ class ConstantToken < Token
   end
 
   def to_gforth
-      value.to_s
+    value.to_s
   end
 end
 
 
 class BooleanToken < ConstantToken
+  def to_gforth
+    if value
+      -1 # -1 is gforth's true.
+    else
+      0 # 0 is gforth's false
+    end
+  end
 end
 
 
 class StringToken < ConstantToken
+  def to_gforth
+  end
 end
 
 
@@ -49,3 +58,5 @@ end
 
 class RealToken < NumberToken
 end
+
+#EOF vim: sw=2:ts=2

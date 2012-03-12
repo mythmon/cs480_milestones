@@ -88,3 +88,5 @@ def strip_parens(tree)
   return arr
 
 end
+
+#EOF vim: sw=2:ts=2
