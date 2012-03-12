@@ -9,8 +9,8 @@ test_dir="./test_programs"
 DEBUG=0
 
 # COLOR
-FG="1m"
-FG_crash="1;31m"
+FG_PASS="32m"
+FG_FAIL="1;31m"
 BG="1m"
 
 function bad_programs(){
@@ -64,13 +64,13 @@ function bad_programs(){
         $ruby $compiler $file > $tmp_fs
         if [ $? -ne 1 ]; then
             echo
-            echo -ne "\033[$FG_crash\033[$BG  FAIL \033[0m";
+            echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m";
             echo "$basename reported a success error value"
             rm -f $tmp_gforth_output
             rm -f $tmp_fs
             continue
         else
-            echo -ne "\033[$FG\033[$BG  PASS  \033[0m";
+            echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m";
         fi
         echo
         rm -f $tmp_gforth_output
@@ -151,7 +151,7 @@ function good_programs(){
 
             if [ $? -eq 1 ]; then
                 echo
-                echo -ne "\033[$FG\033[$BG  FAIL \033[0m";
+                echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m";
                 echo - "$basename did not compile"
                 # Print compiled
                 echo "++++++ Compiler Output"
@@ -176,7 +176,7 @@ function good_programs(){
             $gforth $tmp_fs > $tmp_gforth_output
             if [ $? -eq 1 ]; then
                 echo
-                echo -ne "\033[$FG_crash\033[$BG  FAIL \033[0m";
+                echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m";
                 echo "$basename crashed gforth"
                 # Print compiled gforth
                 echo "++++++ Compiled gforth"
@@ -197,7 +197,7 @@ function good_programs(){
             # If things fail:
             if [ $? -eq 0 ]
             then
-                echo -ne "\033[$FG\033[$BG  PASS  \033[0m";
+                echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m";
                 rm -f $tmp_gforth_output
                 rm -f $tmp_fs
                 continue #Next test
