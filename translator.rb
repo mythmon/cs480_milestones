@@ -67,7 +67,9 @@ def translate(tree)
           args << a
         end
       end
-      output += method(func).call(*args) + ' '
+      func = method(func)
+      result = func.call(*args)
+      output += result.to_gforth + ' '
     end
   end
 
@@ -89,134 +91,134 @@ end
 def ibtl_add(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} +"
+  OutputToken.new(:int, "#{arg0} #{arg1} +")
 end
 
 def ibtl_and(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} and"
+  OutputToken.new(:boolean, "#{arg0} #{arg1} and")
 end
 
 def ibtl_concat(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1}"
+  OutputToken.new(:string, "#{arg0} #{arg1}")
 end
 
 def ibtl_div(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} /"
+  OutputToken.new(:int, "#{arg0} #{arg1} /")
 end
 
 def ibtl_eq(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} ="
+  OutputToken.new(:boolean, "#{arg0} #{arg1} =")
 end
 
 def ibtl_exp(arg0)
   arg0 = to_gforth arg0
-  "#{arg0} exp"
+  OutputToken.new(:int, "#{arg0} exp")
 end
 
 def ibtl_fadd(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} f+"
+  OutputToken.new(:int, "#{arg0} #{arg1} f+")
 end
 
 def ibtl_fdiv(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} f/"
+  OutputToken.new(:int, "#{arg0} #{arg1} f/")
 end
 
 def ibtl_feq(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} f="
+  OutputToken.new(:int, "#{arg0} #{arg1} f=")
 end
 
 def ibtl_flt(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} f<"
+  OutputToken.new(:boolean, "#{arg0} #{arg1} f<")
 end
 
 def ibtl_fminus(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} f-"
+  OutputToken.new(:int, "#{arg0} #{arg1} f-")
 end
 
 def ibtl_fmult(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} f*"
+  OutputToken.new(:int, "#{arg0} #{arg1} f*")
 end
 
 def ibtl_fneg(arg0)
   arg0 = to_gforth arg0
-  "0e #{arg0} f-"
+  OutputToken.new(:int, "0e #{arg0} f-")
 end
 
 def ibtl_fpower(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} f**"
+  OutputToken.new(:int, "#{arg0} #{arg1} f**")
 end
 
 def ibtl_iff(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} ="
+  OutputToken.new(:boolean, "#{arg0} #{arg1} =")
 end
 
 def ibtl_lt(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} <"
+  OutputToken.new(:boolean, "#{arg0} #{arg1} <")
 end
 
 def ibtl_minus(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} -"
+  OutputToken.new(:int, "#{arg0} #{arg1} -")
 end
 
 def ibtl_mult(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} *"
+  OutputToken.new(:int, "#{arg0} #{arg1} *")
 end
 
 def ibtl_neg(arg)
   arg = to_gforth arg
-  "0 #{arg} -"
+  OutputToken.new(:int, "0 #{arg} -")
 end
 
 def ibtl_not(arg0)
   arg0 = to_gforth arg0
-  "#{arg0} invert"
+  OutputToken.new(:boolean, "#{arg0} invert")
 end
 
 def ibtl_or(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0} #{arg1} or"
+  OutputToken.new(:int, "#{arg0} #{arg1} or")
 end
 
 def ibtl_power(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
-  "#{arg0}e #{arg1}e f**"
+  OutputToken.new(:int, "#{arg0}e #{arg1}e f**")
 end
 
 def ibtl_println(arg)
   arg = to_gforth arg
-  "#{arg} . cr"
+  OutputToken.new(nil, "#{arg} . cr")
 end
 
 puts translator

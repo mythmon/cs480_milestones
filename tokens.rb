@@ -32,9 +32,6 @@ end
 
 
 class BooleanToken < ConstantToken
-  def to_gforth
-    value.to_s
-  end
 end
 
 
@@ -63,6 +60,9 @@ class RealToken < NumberToken
     v = v.split("e")
     "#{v[0]}e#{v[1]}"
   end
+end
+
+class OutputToken < ConstantToken
 end
 
 #EOF vim: sw=2:ts=2
