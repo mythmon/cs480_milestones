@@ -216,7 +216,7 @@ def ibtl_neg(arg)
   gf = to_gforth(arg)
   op = (arg.tag == :int ? '' : 'f') + '-'
   base = arg.tag == :int ? '0' : '0e'
-  OutputToken.new(arg.tag, "#{base} #{gf0} #{op}")
+  OutputToken.new(arg.tag, "#{base} #{gf} #{op}")
 end
 
 def ibtl_not(arg0)
