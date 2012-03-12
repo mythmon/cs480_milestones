@@ -124,7 +124,7 @@ end
 
 def ibtl_exp(arg0)
   arg0 = to_gforth arg0
-  OutputToken.new(:int, "#{arg0} fexp")
+  OutputToken.new(:real, "#{arg0} fexp")
 end
 
 def ibtl_fadd(arg0, arg1)
