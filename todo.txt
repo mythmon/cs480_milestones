@@ -7,9 +7,9 @@
 
 ### Integer
 [x] plus        2       +
-[/] minus       2       -
-[/] negate      1       neg
-[/] times       2       *
+[x] minus       2       -
+[x] negate      1       neg
+[x] times       2       *
 [/] divide      2       /
 [ ] remainder   2       %
 [/] power       2       ^
