@@ -14,12 +14,8 @@ end
 
 def translate(tree)
     ops = {
-        :openparen => [:ibtl_noop, 0],
-        :println => [:ibtl_println, 1],
-        :print => [:ibtl_println, 1],
-        'print' => [:ibtl_println, 1],
         'println' => [:ibtl_println, 1],
-        :closeparen => [:ibtl_noop, 0],
+        '+' => [:ibtl_plus, 2],
     }
 
     output = ''
@@ -56,12 +52,27 @@ def translate(tree)
     output
 end
 
+def to_gforth arg
+    if arg.is_a? Token
+        "#{arg.to_gforth}"
+    else
+        "#{arg.to_s}"
+    end
+end
+
 def ibtl_noop(args)
     return ''
 end
 
 def ibtl_println(args)
-    return "#{args[0].to_gforth} . cr"
+    arg = to_gforth args[0]
+    "#{arg} ."
+end
+
+def ibtl_plus(args)
+    arg0 = to_gforth args[0]
+    arg1 = to_gforth args[1]
+    return "#{arg0} #{arg1} +"
 end
 
 puts translator
