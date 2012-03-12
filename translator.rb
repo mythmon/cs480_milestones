@@ -21,7 +21,7 @@ def translate(tree)
     '-'         => [:ibtl_minus, 2],
     'neg'       => [:ibtl_negate, 1],
     '*'         => [:ibtl_times, 2],
-    '/'         => [:ibtl_div, 2],
+    '/'         => [:ibtl_divide, 2],
     '^'         => [:ibtl_power, 2],
   }
 
