@@ -217,7 +217,7 @@ def ibtl_power(arg0, arg1)
 end
 
 def ibtl_println(arg)
-  arg = to_gforth arg
+  gf = to_gforth(arg)
   case arg.tag
   when :int, :boolean
     OutputToken.new(nil, "#{gf} . cr")
