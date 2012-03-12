@@ -163,6 +163,7 @@ function good_programs(){
             fi
 
             # Compare output to expect
+            echo
             debug "diff -w $tmp_gforth_output $expect_file"
             diff -w $tmp_gforth_output $expect_file
             # If things fail:
