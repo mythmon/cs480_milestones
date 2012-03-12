@@ -58,7 +58,10 @@ end
 
 class RealToken < NumberToken
   def to_gforth
-    "#{value}e"
+    v = value.to_s
+    v = v.chomp("f")
+    v = v.split("e")
+    "#{v[0]}e#{v[1]}"
   end
 end
 
