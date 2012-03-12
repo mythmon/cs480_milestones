@@ -1,0 +1,6 @@
+(println 20f)
+(println 10.e-1)
+(println 5e-1)
+(println 5e0)
+(println 5e0f)
+(println 10.0f)
