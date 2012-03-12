@@ -122,11 +122,8 @@ end
 def ibtl_add(arg0, arg1)
     arg0, arg1 = auto_promote(arg0, arg1)
     gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
-    if arg0.tag == :int
-      OutputToken.new(:int, "#{gf0} #{gf1} +")
-    else
-      OutputToken.new(:real, "#{gf0} #{gf1} f+")
-    end
+    op = arg0.tag == :int ? '+' : 'f+'
+    OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_and(arg0, arg1)
