@@ -14,12 +14,6 @@ for file in $FILES
 do
     if [ -f $file ]
     then
-        echo "=============================================="
-        echo "------- Compiling Testing [ "$(cat $file)" ]"
-        if [ $DEBUG -eq 1 ]; then
-            echo -n "[DEBUG] "
-            echo "\$file: $file"
-        fi
         # dirname
         dirname=`dirname "$file"`
         # everything before last '/'
@@ -52,8 +46,15 @@ do
             echo "\$ext: $ext"
         fi
 
-        # Let's make sure this an ibtl file.
-        if [ $ext != 'ibtl' ]
+
+        # Construct the ibtl file name
+        expect_file=$dirname"/"$corename".expect"
+        if [ $DEBUG -eq 1 ]; then
+            echo -n "[DEBUG] "
+            echo "\$expect_file: $expect_file"
+        fi
+
+        if [ "$ext" != 'ibtl' ]
         then
             if [ $DEBUG -eq 1 ]; then
                 echo -n "[DEBUG] "
@@ -61,12 +62,12 @@ do
             fi
             continue # Skip the expect only use the ibtl files.
         fi
-
-        # Construct the ibtl file name
-        expect_file=$dirname"/"$corename".expect"
+        # Let's make sure this an ibtl file.
+        echo "=============================================="
+        echo "------- Compiling Testing [ "$(cat $file)" ]"
         if [ $DEBUG -eq 1 ]; then
             echo -n "[DEBUG] "
-            echo "\$expect_file: $expect_file"
+            echo "\$file: $file"
         fi
         # Run the tests
         # ibtl -> gforth
@@ -75,9 +76,22 @@ do
             echo "$ruby $compiler $file > $tmp_fs"
         fi
         $ruby $compiler $file > $tmp_fs
+
+        if [ $? -eq 1 ]; then
+            echo "        [FAIL] $file did not compile"
+            # Print ibtl
+            echo "++++++ IBTL file"
+            # Print expect
+            if [ $DEBUG -eq 1 ]; then
+                echo -n "[DEBUG] "
+                echo "cat $file"
+            fi
+            cat $file
+            continue
+        fi
         # gforth $(compiled_file)
         if [ $DEBUG -eq 1 ]; then
-            echo -n "[DEBUG] HERE"
+            echo -n "[DEBUG] "
             echo "$gforth $tmp_fs > $tmp_gforth_output"
         fi
         $gforth $tmp_fs > $tmp_gforth_output
@@ -110,6 +124,7 @@ do
             echo -n "[DEBUG] "
             echo "cat $tmp_fs"
         fi
+        cat $tmp_fs
         echo "++++++ Expected Result"
         # Print actual
         if [ $DEBUG -eq 1 ]; then
@@ -123,6 +138,7 @@ do
             echo "cat $tmp_gforth_output"
         fi
         cat $tmp_gforth_output
+        echo
 
         rm -f $tmp_gforth_output
         rm -f $tmp_fs
