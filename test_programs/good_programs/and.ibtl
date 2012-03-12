@@ -1,0 +1,4 @@
+(println (and true true))
+(println (and true false))
+(println (and false true))
+(println (and false false))
