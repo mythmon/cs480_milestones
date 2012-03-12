@@ -23,6 +23,10 @@ def translate(tree)
     '*'         => [:ibtl_times, 2],
     '/'         => [:ibtl_divide, 2],
     '^'         => [:ibtl_power, 2],
+    'and'       => [:ibtl_and, 2],
+    'or'       => [:ibtl_or, 2],
+    'iff'       => [:ibtl_iff, 2],
+    'not'       => [:ibtl_not, 1],
   }
 
   output = ''
@@ -115,6 +119,29 @@ def ibtl_concat(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
   "#{arg0} #{arg1}"
+end
+
+def ibtl_and(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  "#{arg0} #{arg1} and"
+end
+
+def ibtl_or(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  "#{arg0} #{arg1} or"
+end
+
+def ibtl_iff(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  "#{arg0} #{arg1} ="
+end
+
+def ibtl_not(arg0)
+  arg0 = to_gforth arg0
+  "#{arg0} invert"
 end
 
 puts translator
