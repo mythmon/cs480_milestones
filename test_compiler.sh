@@ -8,6 +8,17 @@ tmp_gforth_output="./test_programs/tmp_test.out" # Temporary outpur for results 
 test_dir="./test_programs"
 DEBUG=0
 
+# COLOR
+FG="1m"
+FG_crash="1;31m"
+BG="1m"
+
+function debug(){
+    if [ $DEBUG -eq 1 ]; then
+        echo -n "[DEBUG] "
+        echo "$1"
+    fi
+}
 function bad_programs(){
 
     echo "**************** Bad Programs ****************"
@@ -22,44 +33,29 @@ function bad_programs(){
         dirname=`dirname "$file"`
         # everything before last '/'
         dirname=${file%/*}
-        if [ $DEBUG -eq 1 ]; then
-            echo -n "[DEBUG] "
-            echo "\$dirname: $dirname"
-        fi
+        debug "\$dirname: $dirname"
         # basename
         basename=`basename "$file"`
         # everything after last '/'
         basename=${file##*/}
-        if [ $DEBUG -eq 1 ]; then
-            echo -n "[DEBUG] "
-            echo "\$basename: $basename"
-        fi
+        debug "\$basename: $basename"
 
         ext=${file##*.}
-        if [ $DEBUG -eq 1 ]; then
-            echo -n "[DEBUG] "
-            echo "\$ext: $ext"
-        fi
+        debug "\$ext: $ext"
         echo -n "--> Compiling Testing [ "$basename" ] |||| [ "$(cat $file)" ]"
 
         if [ "$ext" != 'ibtl' ]
         then
-            if [ $DEBUG -eq 1 ]; then
-                echo
-                echo -n "[DEBUG] "
-                echo "Skipping $file"
-            fi
+            debug "Skipping $file"
             continue # Skip the expect only use the ibtl files.
         fi
         # Test compiler. Should report error
-        if [ $DEBUG -eq 1 ]; then
-            echo -n "[DEBUG] "
-            echo "$ruby $compiler $file > $tmp_fs"
-        fi
+        debug "$ruby $compiler $file > $tmp_fs"
         $ruby $compiler $file > $tmp_fs
         if [ $? -ne 1 ]; then
             echo
-            echo "        [FAIL] $file reported a success return value"
+            echo -ne "\033[$FG_crash\033[$BG  FAIL \033[0m";
+            echo "$basename reported a success error value"
             # Print ibtl
             echo "++++++ IBTL file"
             # Print expect
@@ -72,8 +68,9 @@ function bad_programs(){
             rm -f $tmp_fs
             continue
         else
-            echo "        [PASS]"
+            echo -ne "\033[$FG\033[$BG  PASS  \033[0m";
         fi
+        echo
         rm -f $tmp_gforth_output
         rm -f $tmp_fs
 
@@ -91,68 +88,44 @@ function good_programs(){
             dirname=`dirname "$file"`
             # everything before last '/'
             dirname=${file%/*}
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "\$dirname: $dirname"
-            fi
+            debug "\$dirname: $dirname"
 
 
             # basename
             basename=`basename "$file"`
             # everything after last '/'
             basename=${file##*/}
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "\$basename: $basename"
-            fi
+            debug "\$basename: $basename"
 
             # corename
             corename=$(echo "$basename" | sed 's/\..*//') # (testX) where X is a number
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "\$corename: $corename"
-            fi
+            debug "\$corename: $corename"
 
             ext=${file##*.}
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "\$ext: $ext"
-            fi
+            debug "\$ext: $ext"
 
 
             # Construct the ibtl file name
             expect_file=$dirname"/"$corename".expect"
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "\$expect_file: $expect_file"
-            fi
+            debug "\$expect_file: $expect_file"
 
             if [ "$ext" != 'ibtl' ]
             then
-                if [ $DEBUG -eq 1 ]; then
-                    echo -n "[DEBUG] "
-                    echo "Skipping $file"
-                fi
+                debug "Skipping $file"
                 continue # Skip the expect only use the ibtl files.
             fi
             # Let's make sure this an ibtl file.
             echo -n "--> Compiling Testing [ "$basename" ] |||| [ "$(cat $file)" ]"
-            if [ $DEBUG -eq 1 ]; then
-                echo
-                echo -n "[DEBUG] "
-                echo "\$file: $file"
-            fi
+            debug "\$file: $file"
             # Run the tests
             # ibtl -> gforth
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "$ruby $compiler $file > $tmp_fs"
-            fi
+            debug "$ruby $compiler $file > $tmp_fs"
             $ruby $compiler $file > $tmp_fs
 
             if [ $? -eq 1 ]; then
                 echo
-                echo "        [FAIL] $file did not compile"
+                echo -ne "\033[$FG\033[$BG  FAIL \033[0m";
+                echo - "$basename did not compile"
                 # Print IBTL
                 echo "++++++ IBTL file"
                 if [ $DEBUG -eq 1 ]; then
@@ -162,28 +135,21 @@ function good_programs(){
                 cat $file
                 # Print compiled
                 echo "++++++ Compiler Output"
-                if [ $DEBUG -eq 1 ]; then
-                    echo -n "[DEBUG] "
-                    echo "cat $tmp_fs"
-                fi
+                debug "cat $tmp_fs"
                 cat $tmp_fs
                 rm -f $tmp_gforth_output
                 rm -f $tmp_fs
                 continue
             fi
-            if [ $DEBUG -eq 1 ]; then
-                echo "[DEBUG] Program succesfully compiled"
-            fi
+            debug "[DEBUG] Program succesfully compiled"
 
             # gforth $(compiled_file)
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "$gforth $tmp_fs > $tmp_gforth_output"
-            fi
+            debug "$gforth $tmp_fs > $tmp_gforth_output"
             $gforth $tmp_fs > $tmp_gforth_output
             if [ $? -eq 1 ]; then
                 echo
-                echo "        [FAIL] $file crashed gforth"
+                echo -ne "\033[$FG_crash\033[$BG  FAIL \033[0m";
+                echo "$basename crashed gforth"
                 # Print ibtl
                 echo "++++++ IBTL file"
                 if [ $DEBUG -eq 1 ]; then
@@ -193,24 +159,18 @@ function good_programs(){
                 cat $file
                 # Print compiled gforth
                 echo "++++++ Compiled gforth"
-                if [ $DEBUG -eq 1 ]; then
-                    echo -n "[DEBUG] "
-                    echo "cat $tmp_fs"
-                fi
+                debug "cat $tmp_fs"
                 cat $tmp_fs
                 continue
             fi
 
             # Compare output to expect
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "diff -w $tmp_gforth_output $expect_file"
-            fi
+            debug "diff -w $tmp_gforth_output $expect_file"
             diff -w $tmp_gforth_output $expect_file
             # If things fail:
             if [ $? -eq 0 ]
             then
-                echo "           [PASS]"
+                echo -ne "\033[$FG\033[$BG  PASS  \033[0m";
                 rm -f $tmp_gforth_output
                 rm -f $tmp_fs
                 continue #Next test
@@ -219,30 +179,18 @@ function good_programs(){
             # Print ibtl
             echo "++++++ IBTL file"
             # Print expect
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "cat $file"
-            fi
+            debug "cat $file"
             cat $file
             echo "++++++ Compiled Gforth code"
             # Print expect
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "cat $tmp_fs"
-            fi
+            debug "cat $tmp_fs"
             cat $tmp_fs
             echo "++++++ Expected Result"
             # Print actual
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "cat $expect_file"
-            fi
+            debug "cat $expect_file"
             cat $expect_file
             echo "++++++ Actual Result"
-            if [ $DEBUG -eq 1 ]; then
-                echo -n "[DEBUG] "
-                echo "cat $tmp_gforth_output"
-            fi
+            debug "cat $tmp_gforth_output"
             cat $tmp_gforth_output
             echo
 
