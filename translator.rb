@@ -199,9 +199,10 @@ def ibtl_minus(arg0, arg1)
 end
 
 def ibtl_mod(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} mod")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + 'mod'
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_mult(arg0, arg1)
@@ -231,9 +232,11 @@ def ibtl_or(arg0, arg1)
 end
 
 def ibtl_power(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0}e #{arg1}e f** f>d drop")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  gf0, gf1 = (arg0.tag == :int ? [gf0 + 'e', gf1 + 'e'] : [gf0, gf1])
+  op = 'f**' + (arg0.tag == :int ? ' f>d drop' : '')
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_println(arg)
