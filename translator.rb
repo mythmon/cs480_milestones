@@ -25,6 +25,7 @@ def translate(tree)
     'f='        => [:ibtl_feq, 2],
     'f<'        => [:ibtl_flt, 2],
     'f-'        => [:ibtl_fminus, 2],
+    'f%'        => [:ibtl_fmod, 2],
     'f*'        => [:ibtl_fmult, 2],
     'fneg'      => [:ibtl_fneg, 1],
     'f^'        => [:ibtl_fpower, 2],
@@ -34,6 +35,7 @@ def translate(tree)
     'iff'       => [:ibtl_iff, 2],
     '<'         => [:ibtl_lt, 2],
     '-'         => [:ibtl_minus, 2],
+    '%'         => [:ibtl_mod, 2],
     '*'         => [:ibtl_mult, 2],
     'neg'       => [:ibtl_neg, 1],
     'not'       => [:ibtl_not, 1],
@@ -193,6 +195,12 @@ def ibtl_fminus(arg0, arg1)
   OutputToken.new(:real, "#{arg0} #{arg1} f-")
 end
 
+def ibtl_fmod(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  OutputToken.new(:real, "#{arg0} #{arg1} fmod")
+end
+
 def ibtl_fmult(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
@@ -236,6 +244,12 @@ def ibtl_minus(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
   OutputToken.new(:int, "#{arg0} #{arg1} -")
+end
+
+def ibtl_mod(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  OutputToken.new(:int, "#{arg0} #{arg1} mod")
 end
 
 def ibtl_mult(arg0, arg1)
