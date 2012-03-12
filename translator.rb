@@ -106,7 +106,7 @@ def auto_promote(*args)
 
   for arg in args
     if arg.tag == :int
-      new_args << OutputToken.new(:real, "#{to_gforth arg} d>f")
+      new_args << OutputToken.new(:real, "#{to_gforth arg} 0 d>f")
     else
       new_args << arg
     end
@@ -155,7 +155,7 @@ end
 
 def ibtl_exp(arg0)
   arg0 = to_gforth arg0
-  OutputToken.new(:real, "#{arg0} fexp")
+  OutputToken.new(:int, "#{arg0} fexp")
 end
 
 def ibtl_fcos(arg)
