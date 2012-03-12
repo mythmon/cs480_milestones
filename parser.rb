@@ -39,7 +39,7 @@ def parser(input)
   # puts ""
   # puts "+++ Array Format +++"
   # p tree
-  strip_parens(tree)[0]
+  strip_parens(tree)
 end
 
 def expr(tokens)
