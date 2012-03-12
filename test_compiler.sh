@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ruby=/usr/bin/ruby19
-compiler="./translator.rb"
+compiler="translator.rb"
 gforth="gforth"
 tmp_fs="./test_programs/tmp_test.fs" # Temporary output for compiles gforth
 tmp_gforth_output="./test_programs/tmp_test.out" # Temporary outpur for results of compiled gforth program
@@ -69,30 +69,33 @@ do
             echo "\$expect_file: $expect_file"
         fi
         # Run the tests
-        touch $tmp_gforth_output
         # ibtl -> gforth
         if [ $DEBUG -eq 1 ]; then
             echo -n "[DEBUG] "
-            echo "$compiler $file > $tmp_fs"
+            echo "$ruby $compiler $file > $tmp_fs"
         fi
-        $compiler $file > $tmp_fs
+        $ruby $compiler $file > $tmp_fs
         # gforth $(compiled_file)
         if [ $DEBUG -eq 1 ]; then
-            echo -n "[DEBUG] "
+            echo -n "[DEBUG] HERE"
             echo "$gforth $tmp_fs > $tmp_gforth_output"
         fi
+        $gforth $tmp_fs > $tmp_gforth_output
         # Compare output to expect
         if [ $DEBUG -eq 1 ]; then
             echo -n "[DEBUG] "
-            echo "diff $tmp_gforth_output $expect_file"
+            echo "diff -w $tmp_gforth_output $expect_file"
         fi
-        diff $tmp_gforth_output $expect_file
+        diff -w $tmp_gforth_output $expect_file
         # If things fail:
         if [ $? -eq 0 ]
         then
-            echo "\t\t\t[PASS]"
+            echo "           [PASS]"
+            rm -f $tmp_gforth_output
+            rm -f $tmp_fs
             continue #Next test
         fi
+
         # Print ibtl
         echo "++++++ IBTL file"
         # Print expect
