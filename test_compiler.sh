@@ -7,6 +7,8 @@ tmp_fs="./test_programs/tmp_test.fs" # Temporary output for compiles gforth
 tmp_gforth_output="./test_programs/tmp_test.out" # Temporary outpur for results of compiled gforth program
 test_dir="./test_programs"
 DEBUG=0
+TESTS_PASSED=0
+TESTS_FAILED=0
 
 # COLOR
 FG_PASS="32m"
@@ -53,6 +55,7 @@ function bad_programs(){
         debug "$ruby $compiler $file > $tmp_fs"
         $ruby $compiler $file > $tmp_fs
         if [ $? -ne 1 ]; then
+            TESTS_FAILED=$((TESTS_FAILED+1))
             echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m\n";
             echo "$basename reported a success error value"
             # Print ibtl
@@ -67,6 +70,7 @@ function bad_programs(){
             rm -f $tmp_fs
             continue
         else
+            TESTS_PASSED=$((TESTS_PASSED+1))
             echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m\n";
         fi
         echo
@@ -122,6 +126,7 @@ function good_programs(){
             $ruby $compiler $file > $tmp_fs
 
             if [ $? -eq 1 ]; then
+                TESTS_FAILED=$((TESTS_FAILED+1))
                 echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m\n";
                 echo - "$basename did not compile"
                 # Print IBTL
@@ -169,6 +174,7 @@ function good_programs(){
             if [ $? -eq 0 ]
             then
                 echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m\n";
+                TESTS_PASSED=$((TESTS_PASSED+1))
                 rm -f $tmp_gforth_output
                 rm -f $tmp_fs
                 continue #Next test
@@ -198,6 +204,10 @@ function good_programs(){
     done
 
 }
+function stats(){
+    echo -e "Tests passed: \033[$FG_PASS\033[$BG $TESTS_PASSED  \033[0m\n";
+    echo -e "Tests failed: \033[$FG_FAIL\033[$BG $TESTS_FAILED  \033[0m\n";
+}
 function usage(){
      echo 'Usage: -a -b'
      echo '-g: good tests'
@@ -226,13 +236,16 @@ do
     case $arg in
         '-g')
             good_programs
+            stats
             ;;
         '-b')
             bad_programs
+            stats
             ;;
         '-a')
             good_programs
             bad_programs
+            stats
             ;;
         *)
             ;;
