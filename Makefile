@@ -14,6 +14,9 @@ proftest.out:
 	$(CCC) $(RUNFLAGS) $(SOURCE) $(PROFTEST) > proftest.out
 	cat proftest.out
 
+test:
+	@./test_compiler.sh
+
 clean:
 	rm -f *.out
 	ls
