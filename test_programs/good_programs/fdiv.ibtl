@@ -1,2 +1,2 @@
-(println (f/ -1.e0 -1.0))
-(println (f/ 2.5 2.0))
+(println (/ -1.e0 -1.0))
+(println (/ 2.5 2.0))

@@ -21,14 +21,6 @@ def translate(tree)
     '/'         => [:ibtl_div, 2],
     '='         => [:ibtl_eq, 2],
     'e'         => [:ibtl_exp, 1],
-    'f/'        => [:ibtl_fdiv, 2],
-    'f='        => [:ibtl_feq, 2],
-    'f<'        => [:ibtl_flt, 2],
-    'f-'        => [:ibtl_fminus, 2],
-    'f%'        => [:ibtl_fmod, 2],
-    'f*'        => [:ibtl_fmult, 2],
-    'fneg'      => [:ibtl_fneg, 1],
-    'f^'        => [:ibtl_fpower, 2],
     'cos'       => [:ibtl_fcos, 1],
     'sin'       => [:ibtl_fsin, 1],
     'tan'       => [:ibtl_ftan, 1],
@@ -122,13 +114,10 @@ def ibtl_noop(args)
 end
 
 def ibtl_add(arg0, arg1)
-    arg0, arg1 = auto_promote(arg0, arg1)
-    gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
-    if arg0.tag == :int
-      OutputToken.new(:int, "#{gf0} #{gf1} +")
-    else
-      OutputToken.new(:real, "#{gf0} #{gf1} f+")
-    end
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + '+'
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_and(arg0, arg1)
@@ -144,15 +133,17 @@ def ibtl_concat(arg0, arg1)
 end
 
 def ibtl_div(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} /")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + '/'
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_eq(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:boolean, "#{arg0} #{arg1} =")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + '='
+  OutputToken.new(:boolean, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_exp(arg0)
@@ -165,51 +156,10 @@ def ibtl_fcos(arg)
   OutputToken.new(:real, "#{arg} fcos")
 end
 
-def ibtl_ftimes(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0} #{arg1} f*")
-end
-
-def ibtl_fdiv(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0} #{arg1} f/")
-end
-
-def ibtl_feq(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:boolean, "#{arg0} #{arg1} f=")
-end
-
-def ibtl_flt(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:boolean, "#{arg0} #{arg1} f<")
-end
-
-def ibtl_fminus(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0} #{arg1} f-")
-end
-
-def ibtl_fmod(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0} #{arg1} fmod")
-end
-
 def ibtl_fmult(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
   OutputToken.new(:real, "#{arg0} #{arg1} f*")
-end
-
-def ibtl_fneg(arg0)
-  arg0 = to_gforth arg0
-  OutputToken.new(:real, "0e #{arg0} f-")
 end
 
 def ibtl_fpower(arg0, arg1)
@@ -235,15 +185,17 @@ def ibtl_iff(arg0, arg1)
 end
 
 def ibtl_lt(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:boolean, "#{arg0} #{arg1} <")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + '<'
+  OutputToken.new(:boolean, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_minus(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} -")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + '-'
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_mod(arg0, arg1)
@@ -253,14 +205,18 @@ def ibtl_mod(arg0, arg1)
 end
 
 def ibtl_mult(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} *")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + '*'
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_neg(arg)
-  arg = to_gforth arg
-  OutputToken.new(:int, "0 #{arg} -")
+  arg = auto_promote(arg)[0]
+  gf = to_gforth(arg)
+  op = (arg.tag == :int ? '' : 'f') + '-'
+  base = arg.tag == :int ? '0' : '0e'
+  OutputToken.new(arg.tag, "#{base} #{gf0} #{op}")
 end
 
 def ibtl_not(arg0)
