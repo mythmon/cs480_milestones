@@ -18,13 +18,14 @@ def translate(tree)
     'println'   => [:ibtl_println, 1],
     'print'     => [:ibtl_print, 1],
     '+'         => [:ibtl_plus, 2],
+    'f+'        => [:ibtl_fplus, 2],
     '-'         => [:ibtl_minus, 2],
     'neg'       => [:ibtl_negate, 1],
     '*'         => [:ibtl_times, 2],
     '/'         => [:ibtl_divide, 2],
     '^'         => [:ibtl_power, 2],
     'and'       => [:ibtl_and, 2],
-    'or'       => [:ibtl_or, 2],
+    'or'        => [:ibtl_or, 2],
     'iff'       => [:ibtl_iff, 2],
     'not'       => [:ibtl_not, 1],
   }
@@ -81,6 +82,12 @@ def ibtl_println(arg)
   arg = to_gforth arg
 
   OutputToken.new(nil, "#{arg} . cr")
+end
+
+def ibtl_fplus(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  OutputToken.new(:real, "#{arg0} #{arg1} f+")
 end
 
 def ibtl_plus(arg0, arg1)
