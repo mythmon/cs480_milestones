@@ -71,7 +71,7 @@ def tokenize(input)
     l = s.scan(/"(.*?)"/)
     l = s.scan(/'(.*?)'/) unless l
     if l
-      token = StringToken.new(:string, s[0])
+      token = StringToken.new(:string, s[0][1...-1])
       st.try_set(l, token)
       tokens << token
       next

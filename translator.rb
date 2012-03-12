@@ -111,6 +111,12 @@ def ibtl_power(arg0, arg1)
   "#{arg0} #{arg1} ^"
 end
 
+def ibtl_concat(arg0, arg1)
+  arg0 = to_gforth arg0
+  arg1 = to_gforth arg1
+  "#{arg0} #{arg1}"
+end
+
 puts translator
 
 #EOF vim: sw=2:ts=2
