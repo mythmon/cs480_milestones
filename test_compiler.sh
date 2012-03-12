@@ -139,7 +139,7 @@ function good_programs(){
                 fi
                 cat $file
                 # Print compiled
-                echo "++++++ Compiler Output"
+                echo "\033[95m++++++ Compiler Output\033[0m"
                 debug "cat $tmp_fs"
                 cat $tmp_fs
                 rm -f $tmp_gforth_output
@@ -178,11 +178,11 @@ function good_programs(){
             then
                 echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m\n";
                 TESTS_PASSED=$((TESTS_PASSED+1))
-                echo "++++++ IBTL file"
+                echo -e "\033[95m\033[$BG IBTL file \033[0m"
                 # Print expect
                 debug "cat $file"
                 cat $file
-                echo "++++++ Compiled Gforth code"
+                echo -e "\033[95m\033[$BG Compiled Gforth code \033[0m"
                 # Print expect
                 debug "cat $tmp_fs"
                 cat $tmp_fs
