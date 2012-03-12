@@ -9,6 +9,7 @@ def translator
   input = IO.read(ARGV[0])
   tree = parser(input)
   output = translate(tree)
+  output += "\nbye"
   # write output to a file?
 end
 
