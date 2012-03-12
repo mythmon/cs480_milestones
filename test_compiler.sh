@@ -6,7 +6,7 @@ gforth="gforth"
 tmp_fs="./test_programs/tmp_test.fs" # Temporary output for compiles gforth
 tmp_gforth_output="./test_programs/tmp_test.out" # Temporary outpur for results of compiled gforth program
 test_dir="./test_programs"
-DEBUG=1
+DEBUG=0
 
 function bad_programs(){
 
@@ -187,15 +187,16 @@ function good_programs(){
                 echo "++++++ IBTL file"
                 if [ $DEBUG -eq 1 ]; then
                     echo -n "[DEBUG] "
-                    echo "cat $tmp_fs"
-                fi
-                cat $tmp_fs
-                # Print expect
-                if [ $DEBUG -eq 1 ]; then
-                    echo -n "[DEBUG] "
                     echo "cat $file"
                 fi
                 cat $file
+                # Print compiled gforth
+                echo "++++++ Compiled gforth"
+                if [ $DEBUG -eq 1 ]; then
+                    echo -n "[DEBUG] "
+                    echo "cat $tmp_fs"
+                fi
+                cat $tmp_fs
                 continue
             fi
 
