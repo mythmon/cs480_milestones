@@ -17,6 +17,7 @@ def translate(tree)
   ops = {
     '+'         => [:ibtl_add, 2],
     'and'       => [:ibtl_and, 2],
+    'concat'    => [:ibtl_concat, 2],
     '/'         => [:ibtl_div, 2],
     '='         => [:ibtl_eq, 2],
     'e'         => [:ibtl_exp, 1],
@@ -115,12 +116,6 @@ def ibtl_div(arg0, arg1)
   OutputToken.new(:int, "#{arg0} #{arg1} /")
 end
 
-def ibtl_fminus(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0} #{arg1} f-")
-end
-
 def ibtl_eq(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
@@ -129,7 +124,7 @@ end
 
 def ibtl_exp(arg0)
   arg0 = to_gforth arg0
-  OutputToken.new(:int, "#{arg0} exp")
+  OutputToken.new(:int, "#{arg0} fexp")
 end
 
 def ibtl_fadd(arg0, arg1)
@@ -150,12 +145,6 @@ def ibtl_ftimes(arg0, arg1)
 end
 
 def ibtl_fdiv(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0} #{arg1} f/")
-end
-
-def ibtl_fdivide(arg0, arg1)
   arg0 = to_gforth arg0
   arg1 = to_gforth arg1
   OutputToken.new(:real, "#{arg0} #{arg1} f/")
