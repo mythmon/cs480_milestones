@@ -1,12 +1,11 @@
-CCC = ruby1.9.1
+CCC = ruby19
 CCFLAGS =
 OBJS =
 SOURCE = translator.rb
 RUNFLAGS =
 
 stutest.out:
-	cat $(SOURCE)
-	$(CCC) $(RUNFLAGS) $(SOURCE) stutest1.in > stutest1.out
+	./test_compiler.sh -a > stutest1.out
 	cat stutest1.out
 
 proftest.out:
