@@ -6,7 +6,7 @@ gforth="gforth"
 tmp_fs="./test_programs/tmp_test.fs" # Temporary output for compiles gforth
 tmp_gforth_output="./test_programs/tmp_test.out" # Temporary outpur for results of compiled gforth program
 test_dir="./test_programs"
-DEBUG=0
+DEBUG=1
 
 function bad_programs(){
 
@@ -68,6 +68,8 @@ function bad_programs(){
                 echo "cat $file"
             fi
             cat $file
+            rm -f $tmp_gforth_output
+            rm -f $tmp_fs
             continue
         else
             echo "        [PASS]"
@@ -153,12 +155,19 @@ function good_programs(){
                 echo "        [FAIL] $file did not compile"
                 # Print ibtl
                 echo "++++++ IBTL file"
+                if [ $DEBUG -eq 1 ]; then
+                    echo -n "[DEBUG] "
+                    echo "cat $tmp_fs"
+                fi
+                cat $tmp_fs
                 # Print expect
                 if [ $DEBUG -eq 1 ]; then
                     echo -n "[DEBUG] "
                     echo "cat $file"
                 fi
                 cat $file
+                rm -f $tmp_gforth_output
+                rm -f $tmp_fs
                 continue
             fi
             if [ $DEBUG -eq 1 ]; then
@@ -171,6 +180,24 @@ function good_programs(){
                 echo "$gforth $tmp_fs > $tmp_gforth_output"
             fi
             $gforth $tmp_fs > $tmp_gforth_output
+            if [ $? -eq 1 ]; then
+                echo
+                echo "        [FAIL] $file crashed gforth"
+                # Print ibtl
+                echo "++++++ IBTL file"
+                if [ $DEBUG -eq 1 ]; then
+                    echo -n "[DEBUG] "
+                    echo "cat $tmp_fs"
+                fi
+                cat $tmp_fs
+                # Print expect
+                if [ $DEBUG -eq 1 ]; then
+                    echo -n "[DEBUG] "
+                    echo "cat $file"
+                fi
+                cat $file
+                continue
+            fi
 
             # Compare output to expect
             if [ $DEBUG -eq 1 ]; then
