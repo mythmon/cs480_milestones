@@ -39,3 +39,5 @@ class SymbolTable
     @st.inspect
   end
 end
+
+#EOF vim: sw=2:ts=2
