@@ -45,7 +45,7 @@ function bad_programs(){
             echo -n "[DEBUG] "
             echo "\$ext: $ext"
         fi
-        echo -n "--> Compiling Testing [ "$basename" ] |||| [ "$(cat $file)" ]"
+        echo -n "--> Compiling Testing [ "$basename" ]"
 
         if [ "$ext" != 'ibtl' ]
         then
@@ -63,14 +63,21 @@ function bad_programs(){
         fi
         $ruby $compiler $file > $tmp_fs
         if [ $? -ne 1 ]; then
-            echo
-            echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m";
+            echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m\n";
             echo "$basename reported a success error value"
+            # Print ibtl
+            echo "++++++ IBTL file"
+            # Print expect
+            if [ $DEBUG -eq 1 ]; then
+                echo -n "[DEBUG] "
+                echo "cat $file"
+            fi
+            cat $file
             rm -f $tmp_gforth_output
             rm -f $tmp_fs
             continue
         else
-            echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m";
+            echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m\n";
         fi
         echo
         rm -f $tmp_gforth_output
@@ -135,7 +142,7 @@ function good_programs(){
                 continue # Skip the expect only use the ibtl files.
             fi
             # Let's make sure this an ibtl file.
-            echo -n "--> Compiling Testing [ "$basename" ] |||| [ "$(cat $file)" ]"
+            echo -n "--> Compiling Testing [ "$basename" ]"
             if [ $DEBUG -eq 1 ]; then
                 echo
                 echo -n "[DEBUG] "
@@ -150,9 +157,15 @@ function good_programs(){
             $ruby $compiler $file > $tmp_fs
 
             if [ $? -eq 1 ]; then
-                echo
-                echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m";
+                echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m\n";
                 echo - "$basename did not compile"
+                # Print IBTL
+                echo "++++++ IBTL file"
+                if [ $DEBUG -eq 1 ]; then
+                    echo -n "[DEBUG] "
+                    echo "cat $file"
+                fi
+                cat $file
                 # Print compiled
                 echo "++++++ Compiler Output"
                 if [ $DEBUG -eq 1 ]; then
@@ -176,8 +189,15 @@ function good_programs(){
             $gforth $tmp_fs > $tmp_gforth_output
             if [ $? -eq 1 ]; then
                 echo
-                echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m";
+                echo -ne "\033[$FG_FAIL\033[$BG  FAIL \033[0m\n";
                 echo "$basename crashed gforth"
+                # Print ibtl
+                echo "++++++ IBTL file"
+                if [ $DEBUG -eq 1 ]; then
+                    echo -n "[DEBUG] "
+                    echo "cat $file"
+                fi
+                cat $file
                 # Print compiled gforth
                 echo "++++++ Compiled gforth"
                 if [ $DEBUG -eq 1 ]; then
@@ -197,7 +217,7 @@ function good_programs(){
             # If things fail:
             if [ $? -eq 0 ]
             then
-                echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m";
+                echo -ne "\033[$FG_PASS\033[$BG  PASS  \033[0m\n";
                 rm -f $tmp_gforth_output
                 rm -f $tmp_fs
                 continue #Next test
