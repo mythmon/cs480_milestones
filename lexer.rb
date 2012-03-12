@@ -59,14 +59,6 @@ def tokenize(input)
       next
     end
 
-    l = s.scan(/\-?\d+e?(\d+)?/)
-    if l
-      token = RealToken.new(:real, l.to_f)
-      st.try_set(l, token)
-      tokens << token
-      next
-    end
-
     l = s.scan(/\-?\d+\.(\d+)?/)
     if l
       token = RealToken.new(:real, l.to_f)
