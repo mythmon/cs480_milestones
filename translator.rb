@@ -21,7 +21,6 @@ def translate(tree)
     '/'         => [:ibtl_div, 2],
     '='         => [:ibtl_eq, 2],
     'e'         => [:ibtl_exp, 1],
-    'f+'        => [:ibtl_fadd, 2],
     'f/'        => [:ibtl_fdiv, 2],
     'f='        => [:ibtl_feq, 2],
     'f<'        => [:ibtl_flt, 2],
@@ -88,14 +87,46 @@ def to_gforth arg
   end
 end
 
+def auto_promote(*args)
+  all_int = true
+  new_args = []
+  for arg in args
+    new_args << arg
+    if arg.tag != :int
+      all_int = false
+      break
+    end
+  end
+
+  if all_int
+    return new_args
+  else
+    new_args = []
+  end
+
+  for arg in args
+    if arg.tag == :int
+      new_args << OutputToken.new(:real, "#{to_gforth arg} d>f")
+    else
+      new_args << arg
+    end
+  end
+
+  new_args
+end
+
 def ibtl_noop(args)
   return ''
 end
 
 def ibtl_add(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0} #{arg1} +")
+    arg0, arg1 = auto_promote(arg0, arg1)
+    gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+    if arg0.tag == :int
+      OutputToken.new(:int, "#{gf0} #{gf1} +")
+    else
+      OutputToken.new(:real, "#{gf0} #{gf1} f+")
+    end
 end
 
 def ibtl_and(arg0, arg1)
@@ -125,12 +156,6 @@ end
 def ibtl_exp(arg0)
   arg0 = to_gforth arg0
   OutputToken.new(:int, "#{arg0} fexp")
-end
-
-def ibtl_fadd(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:real, "#{arg0} #{arg1} f+")
 end
 
 def ibtl_fcos(arg)
