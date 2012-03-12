@@ -33,11 +33,7 @@ end
 
 class BooleanToken < ConstantToken
   def to_gforth
-    if value
-      '-1' # -1 is gforth's true.
-    else
-      '0' # 0 is gforth's false
-    end
+    value.to_s
   end
 end
 
@@ -62,7 +58,10 @@ end
 
 class RealToken < NumberToken
   def to_gforth
-    "#{value}e"
+    v = value.to_s
+    v = v.chomp("f")
+    v = v.split("e")
+    "#{v[0]}e#{v[1]}"
   end
 end
 
