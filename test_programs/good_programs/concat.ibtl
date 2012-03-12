@@ -1,2 +1,2 @@
-(println (+ kthx bai))
-(println (+ ass (+ u me)))
+(println (concat kthx bai))
+(println (concat ass (+ u me)))
