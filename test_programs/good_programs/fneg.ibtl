@@ -1,0 +1,3 @@
+(println (neg 4.0e0))
+(println (neg 10.))
+(println (neg -20.))

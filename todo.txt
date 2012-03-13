@@ -1,0 +1,41 @@
+### Boolean
+[ ] Operator    Args    IBTL
+[ ] and         2       and
+[ ] or          2       or
+[ ] not         1       not
+[ ] iff         2       iff
+
+### Integer
+[x] plus        2       +
+[x] minus       2       -
+[x] negate      1       neg
+[x] times       2       *
+[/] divide      2       /
+[ ] remainder   2       %
+[/] power       2       ^
+[ ] less than   2       <
+[ ] equal       2       =
+
+### Floating
+[ ] plus        2       f+
+[ ] minus       2       f-
+[ ] negate      1       fneg
+[ ] times       2       f*
+[ ] divide      2       f/
+[ ] remainder   2       f%
+[ ] power       2       f^
+[ ] sin         1       sin
+[ ] cos         1       cos
+[ ] tan         1       tan
+[ ] exp         1       e
+[ ] less than   2       f<
+[ ] equal       2       f=
+
+### String
+[ ] concat      2       concat
+
+### Us
+[ ] float       1       float
+[ ] int         1       int
+[x] println     1       println
+[/] print       1       print
