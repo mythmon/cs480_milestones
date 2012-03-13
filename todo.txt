@@ -1,9 +1,9 @@
 ### Boolean
 [ ] Operator    Args    IBTL
-[ ] and         2       and
-[ ] or          2       or
-[ ] not         1       not
-[ ] iff         2       iff
+[x] and         2       and
+[x] or          2       or
+[x] not         1       not
+[x] iff         2       iff
 
 ### Integer
 [x] plus        2       +

@@ -27,6 +27,7 @@ def translate(tree)
     'iff'       => [:ibtl_iff, 2],
     '<'         => [:ibtl_lt, 2],
     '-'         => [:ibtl_minus, 2],
+    '%'         => [:ibtl_mod, 2],
     '*'         => [:ibtl_mult, 2],
     'neg'       => [:ibtl_neg, 1],
     'not'       => [:ibtl_not, 1],
@@ -147,7 +148,7 @@ end
 
 def ibtl_exp(arg0)
   arg0 = to_gforth arg0
-  OutputToken.new(:int, "#{arg0} fexp")
+  OutputToken.new(:real, "#{arg0} fexp")
 end
 
 def ibtl_fcos(arg)
@@ -197,6 +198,13 @@ def ibtl_minus(arg0, arg1)
   OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
+def ibtl_mod(arg0, arg1)
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  op = (arg0.tag == :int ? '' : 'f') + 'mod'
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
+end
+
 def ibtl_mult(arg0, arg1)
   arg0, arg1 = auto_promote(arg0, arg1)
   gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
@@ -224,9 +232,11 @@ def ibtl_or(arg0, arg1)
 end
 
 def ibtl_power(arg0, arg1)
-  arg0 = to_gforth arg0
-  arg1 = to_gforth arg1
-  OutputToken.new(:int, "#{arg0}e #{arg1}e f** f>d drop")
+  arg0, arg1 = auto_promote(arg0, arg1)
+  gf0, gf1 = [to_gforth(arg0), to_gforth(arg1)]
+  gf0, gf1 = (arg0.tag == :int ? [gf0 + 'e', gf1 + 'e'] : [gf0, gf1])
+  op = 'f**' + (arg0.tag == :int ? ' f>d drop' : '')
+  OutputToken.new(arg0.tag, "#{gf0} #{gf1} #{op}")
 end
 
 def ibtl_println(arg)
